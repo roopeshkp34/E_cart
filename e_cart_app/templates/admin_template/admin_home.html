@@ -1,0 +1,109 @@
+{% extends "admin_template/base.html" %}
+
+{%block content%}
+
+<div class="container-fluid pt-1 d-flex justify-content-center">
+    <div class="card text-white bg-info mb-3" style="width: 20%;">
+      <div class="card-header"><a href="#" class="text-white">Today's Attendance</a></div>
+        <div class="card-body">
+          <center><h1 class="card-title">{{ attend.count }} {{ student.count }}</h1></center>
+        </div>
+      </div>
+
+      <div class="card text-white bg-info mb-3 ml-5" style="width: 20%;">
+        <div class="card-header"><a href="#" class="text-white">Today's Assignment</a></div>
+        <div class="card-body">
+            {% if todaysassignments.count == 0 %}
+                <center><h2 class="card-title">Not Submitted</h2></center>
+            {% else %}
+                <center><h2 class="card-title">Submitted</h2></center>
+            {% endif %}
+        </div>
+      </div>
+
+      <div class="card text-white bg-info mb-3 ml-5" style="width: 20%;">
+        <div class="card-header"><a href="#" class="text-white">Today's Notes</a></div>
+        <div class="card-body">
+            {% if todaysnotes.count == 0 %}
+                <center><h2 class="card-title">Not Submitted</h2></center>
+            {% else %}
+                <center><h2 class="card-title">Submitted</h2></center>
+            {% endif %}
+        </div>
+      </div>
+</div>
+
+<div class="container-fluid pt-1 d-flex justify-content-center">
+    <div class="card bg-light mb-3" style="width: 30%;">
+        <a href="#">
+        <div class="card-header">Announcements ({{ announcements.count }})</div></a>
+        <div class="card-body">
+          {% for announcement in announcements|slice:":9" %}
+          <a href="#"><p class="card-text">{{ announcement.announcement }}</p></a><br>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="card bg-light mb-3 ml-5" style="width: 30%;">
+        <a href="#">
+        <div class="card-header">Assignments ({{ assignments.count }})</div>
+        <div class="card-body">
+          {% for assignment in assignments|slice:":9" %}
+          <p class="card-text">{{ assignment.title }}</p>
+          {% endfor %}
+        </div>
+        </a>
+      </div>
+
+      <div class="card bg-light mb-3 ml-5" style="width: 30%;">
+        <a href="#">
+        <div class="card-header">Notes ({{ notes.count }})</div>
+        <div class="card-body">
+          {% for note in notes|slice:":9" %}
+          <p class="card-text">{{ note.topic }}</p>
+          {% endfor %}
+        </div>
+        </a>
+      </div>
+</div>
+
+<!-- <div class="d-md-flex pr-5 pl-4 mt-3 text-white">
+    <div class="col-md-4 bg-dark m-1" style="height: 430px;">
+        <a href="#">
+        <center><h4>Announcements</h4></center>
+        <div class="mt-4">
+            {% for announcement in announcements|slice:":9" %}
+            <ul>
+                <li class="text-white">{{ announcement.announcement }}</li>
+            </ul>
+            {% endfor %}
+        </div>
+        </a>
+    </div>
+    <div class="col-md-4 bg-dark m-1" style="height: 430px;">
+        <a href="#">
+        <center><h4>Assignments</h4></center>
+        <div class="mt-4">
+            {% for assignment in assignments|slice:":9" %}
+            <ul>
+                <li class="">{{ assignment.title }}</li>
+            </ul>
+            {% endfor %}
+        </div>
+        </a>
+    </div>
+    <div class="col-md-4 bg-dark m-1" style="height: 430px;">
+        <a href="#">
+        <center><h4>Notes</h4></center>
+        <div class="mt-4">
+            {% for note in notes|slice:":9" %}
+                <ul>
+                    <li class="">{{ note.topic }}</li>
+                </ul>
+        {% endfor %}
+        </div>
+        </a>
+    </div>
+</div> -->
+
+{%endblock%}
