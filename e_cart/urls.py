@@ -18,10 +18,29 @@ from django.urls import path
 from e_cart_app import adminviews
 
 urlpatterns = [
+    
+    
+    #Admin views
+
     path('admin/', admin.site.urls),
     path('admin_login',adminviews.admin_login,name='admin_login'),
+    path('admin_dologin',adminviews.admin_dologin,name='admin_dologin'),
     path('admin_home',adminviews.admin_home,name='admin_home'),
-    path('home',adminviews.home,name='home'),
+    path('admin_home',adminviews.admin_home,name='admin_home'),
+    path('manage_dealer',adminviews.manage_dealer,name='manage_dealer'),
+    path('manage_users',adminviews.manage_users,name='manage_users'),
+    path('add_dealer',adminviews.add_dealer,name='add_dealer'),
+    path('save_add_dealer',adminviews.save_add_dealer,name='save_add_dealer'),
+
+
+
+
+
+
+    #Dealer Views
+
+
+    #user Views
 
 
 ]

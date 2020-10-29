@@ -8,10 +8,10 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-    <title>Tutor</title>
+    <title>Admin</title>
   </head>
   <body class="bg-light">
-    <nav class="navbar navbar-dark bg-info">
+    <nav class="navbar navbar-dark bg-dark">
         <h2 class="text-white">Hi {{ user.username}}</h2>
         <button class="btn btn-primary bg-danger justify-content-end" id="menu-toggle"><a href="#" class="text-white">Logout</a></button>
     </nav>
@@ -19,14 +19,43 @@
 
         <!-- Sidebar -->
         <div class="bg-light border-right col-md-2" id="sidebar-wrapper">
-          <div class="list-group list-group-flush bg-dark">
-            <a href="#" class="list-group-item list-group-item-action bg-light">Home</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Sudents</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Attendance</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Assignments</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Notes</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Announcements</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
+          <div class="list-group list-group-flush bg-light">
+            <!-- {% url 'admin_home' as admin_home %}
+            <a href="{% url 'admin_home' %}" class="list-group-item list-group-item-action bg-light {% if request.path == admin_home %} active {% endif %}">Home</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Dealers</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Customers</a> -->
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+              <!-- Add icons to the links using the .nav-icon class
+                   with font-awesome or any other icon font library -->
+                   <li class="nav-item">
+                    {% url 'admin_home' as admin_home %}
+                    <a href="{{ admin_home }}" class="nav-link {% if request.path == admin_home %} active {% endif %}">
+                      <i class="nav-icon fas fa-home"></i>
+                      <p>
+                        Home
+                       
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    {% url 'manage_dealer' as manage_dealer %}
+                    <a href="{{ manage_dealer }}" class="nav-link {% if request.path == manage_dealer %} active {% endif %}">
+                      <i class="nav-icon fas fa-home"></i>
+                      <p>
+                        Dealers
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    {% url 'manage_users' as manage_users %}
+                    <a href="{{ manage_users }}" class="nav-link {% if request.path == manage_users %} active {% endif %} ">
+                      <i class="nav-icon fas fa-home"></i>
+                      <p>
+                        Customers
+                      </p>
+                    </a>
+                  </li>
+            </ul>
           </div>
         </div>
 
