@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,6 +49,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'e_cart_app.LoginCheckMiddleWare.LoginCheckMiddleWare',
+
 ]
 
 ROOT_URLCONF = 'e_cart.urls'
@@ -74,23 +77,23 @@ WSGI_APPLICATION = 'e_cart.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'e_cart',
-        'HOST': 'localhost',
-        'PORT': '3306',
-        'USER': 'root',
-        'PASSWORD': '12345',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'e_cart',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#         'USER': 'root',
+#         'PASSWORD': '12345',
+#     }
+# }
 
 
 # Password validation
@@ -132,3 +135,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL="e_cart_app.CustomUser"
+
+
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+
+MEDIA_URL = '/media/images/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/images')

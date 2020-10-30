@@ -34,6 +34,25 @@ class Customer(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
 
+class Product(models.Model):
+    dealer_id=models.ForeignKey(Dealer,on_delete=models.CASCADE)
+    product_name = models.CharField(max_length = 200,null = True)
+    price = models.FloatField()
+    category=models.CharField(max_length = 200,null = True)
+    quantity=models.IntegerField(default=0,null=True,blank=True)
+    digital = models.BooleanField(default=False, null=True, blank=True)
+    image = models.ImageField(null = True, blank = True)
+
+    def __str__(self):
+        return self.product_name
+    
+    @property
+    def imageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
 
 
 

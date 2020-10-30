@@ -8,11 +8,12 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-    <title>Ecart || Admin Panel</title>
+    <title>Ecart || Dealer Panel</title>
+    {% block custom_css %}{% endblock custom_css %}
   </head>
   <body class="bg-light">
     <nav class="navbar navbar-dark bg-dark">
-        <h2 class="text-white">Hi {{ user.username}}</h2>
+        <h2 class="text-white">Hi {{ user.first_name}}</h2>
         <button class="btn btn-primary bg-danger justify-content-end" id="menu-toggle"><a href="#" class="text-white">Logout</a></button>
     </nav>
     <div class="d-md-flex" id="wrapper">
@@ -28,8 +29,8 @@
               <!-- Add icons to the links using the .nav-icon class
                    with font-awesome or any other icon font library -->
                    <li class="nav-item">
-                    {% url 'admin_home' as admin_home %}
-                    <a href="{{ admin_home }}" class="nav-link {% if request.path == admin_home %} active {% endif %}">
+                    {% url 'dealer_home' as dealer_home %}
+                    <a href="{{ dealer_home }}" class="nav-link {% if request.path == dealer_home %} active {% endif %}">
                       <i class="nav-icon fas fa-home"></i>
                       <p>
                         Home
@@ -38,17 +39,35 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    {% url 'manage_dealer' as manage_dealer %}
-                    <a href="{{ manage_dealer }}" class="nav-link {% if request.path == manage_dealer %} active {% endif %}">
+                    <!-- {% url 'manage_dealer' as manage_dealer %} -->
+                    <a href="#" class="nav-link {% if request.path == manage_dealer %} active {% endif %}">
                       <i class="nav-icon fas fa-home"></i>
                       <p>
-                        Dealers
+                       Orders
                       </p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    {% url 'manage_users' as manage_users %}
-                    <a href="{{ manage_users }}" class="nav-link {% if request.path == manage_users %} active {% endif %} ">
+                    {% url 'manage_product' as manage_product %}
+                    <a href="{% url 'manage_product' %}" class="nav-link {% if request.path == manage_product %} active {% endif %} ">
+                      <i class="nav-icon fas fa-home"></i>
+                      <p>
+                        Products
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <!-- {% url 'manage_users' as manage_users %} -->
+                    <a href="" class="nav-link {% if request.path == manage_users %} active {% endif %} ">
+                      <i class="nav-icon fas fa-home"></i>
+                      <p>
+                        Offers
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <!-- {% url 'manage_users' as manage_users %} -->
+                    <a href="" class="nav-link {% if request.path == manage_users %} active {% endif %} ">
                       <i class="nav-icon fas fa-home"></i>
                       <p>
                         Customers
@@ -69,5 +88,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    {% block custom_js %}
+    {% endblock custom_js %}
   </body>
 </html>

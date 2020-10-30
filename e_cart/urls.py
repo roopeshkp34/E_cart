@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from e_cart_app import adminviews
+from e_cart_app import adminviews,dealerviews
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     
@@ -31,6 +33,12 @@ urlpatterns = [
     path('manage_users',adminviews.manage_users,name='manage_users'),
     path('add_dealer',adminviews.add_dealer,name='add_dealer'),
     path('save_add_dealer',adminviews.save_add_dealer,name='save_add_dealer'),
+    path('edit_dealer/<str:dealer_id>',adminviews.edit_dealer,name='edit_dealer'),
+    path('save_edit_dealer',adminviews.save_edit_dealer,name='save_edit_dealer'),
+    path('delete_dealer/<str:dealer_id>',adminviews.delete_dealer,name='delete_dealer'),
+
+
+
 
 
 
@@ -38,9 +46,25 @@ urlpatterns = [
 
 
     #Dealer Views
+    path('dealer_login',dealerviews.dealer_login,name='dealer_login'),
+    path('dealer_dologin',dealerviews.dealer_dologin,name='dealer_dologin'),
+    path('dealer_home',dealerviews.dealer_home,name='dealer_home'),
+    path('manage_product',dealerviews.manage_product,name='manage_product'),
+    path('add_product',dealerviews.add_product,name='add_product'),
+    path('add_product_save',dealerviews.add_product_save,name='add_product_save'),
+    path('edit_product/<str:product_id>',dealerviews.edit_product,name='edit_product'),
+    path('save_edit_product',dealerviews.save_edit_product,name='save_edit_product'),
+    path('delete_product/<str:product_id>',dealerviews.delete_product,name='delete_product'),
+
+
+
+
+
+
+
 
 
     #user Views
 
 
-]
+]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
