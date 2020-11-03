@@ -14,7 +14,7 @@
   <body class="bg-light">
     <nav class="navbar navbar-dark bg-dark">
         <h2 class="text-white">Hi {{ user.first_name}}</h2>
-        <button class="btn btn-primary bg-danger justify-content-end" id="menu-toggle"><a href="#" class="text-white">Logout</a></button>
+        <button class="btn btn-primary bg-danger justify-content-end" id="menu-toggle"><a href="{% url 'dealer_logout' %}" class="text-white">Logout</a></button>
     </nav>
     <div class="d-md-flex" id="wrapper">
 

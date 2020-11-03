@@ -50,7 +50,13 @@ def dealer_home(request):
     return render(request,"dealer_template/dealer_home.html")
 
 
+def dealer_logout(request):
+    logout(request)
+    return redirect("dealer_login")
 
+
+
+    
 
 @user_passes_test(lambda u: u.user_type == '2',login_url='dealer_login')
 def manage_product(request):

@@ -13,7 +13,7 @@
   <body class="bg-light">
     <nav class="navbar navbar-dark bg-dark">
         <h2 class="text-white">Hi {{ user.username}}</h2>
-        <button class="btn btn-primary bg-danger justify-content-end" id="menu-toggle"><a href="#" class="text-white">Logout</a></button>
+        <button class="btn btn-primary bg-danger justify-content-end" id="menu-toggle"><a href="{% url 'admin_logout' %}" class="text-white">Logout</a></button>
     </nav>
     <div class="d-md-flex" id="wrapper">
 
@@ -52,6 +52,15 @@
                       <i class="nav-icon fas fa-home"></i>
                       <p>
                         Customers
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    {% url 'admin_view_product' as admin_view_product %}
+                    <a href="{{ admin_view_product }}" class="nav-link {% if request.path == admin_view_product %} active {% endif %} ">
+                      <i class="nav-icon fas fa-home"></i>
+                      <p>
+                        Products
                       </p>
                     </a>
                   </li>

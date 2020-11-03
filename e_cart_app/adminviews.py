@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User,auth
 from django.contrib.auth import login,authenticate,logout
 from django.http import HttpResponse,HttpResponseRedirect
-from e_cart_app.models import Dealer,CustomUser
+from e_cart_app.models import Dealer,CustomUser,Product
 from django.contrib.auth.decorators import user_passes_test
 
 
@@ -43,6 +43,11 @@ def admin_home(request):
     return render(request,'admin_template/admin_home.html')
 
 
+
+
+def admin_logout(request):
+    logout(request)
+    return redirect("admin_login")
 
 
 @user_passes_test(lambda u: u.is_superuser,login_url='admin_login')
@@ -138,3 +143,15 @@ def delete_dealer(request,dealer_id):
     dealer=Dealer.objects.get(admin=dealer_id)
     dealer.delete()
     return redirect("manage_dealer")
+
+
+
+
+@user_passes_test(lambda u: u.is_superuser,login_url='admin_login')
+def admin_view_product(request):
+    product=Product.objects.all()
+    context={
+        "product":product
+    }
+    return render(request,"admin_template/admin_view_product.html",context)
+    

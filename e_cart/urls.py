@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from e_cart_app import adminviews,dealerviews
+from e_cart_app import adminviews,dealerviews,customerviews
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -28,7 +28,7 @@ urlpatterns = [
     path('admin_login',adminviews.admin_login,name='admin_login'),
     path('admin_dologin',adminviews.admin_dologin,name='admin_dologin'),
     path('admin_home',adminviews.admin_home,name='admin_home'),
-    path('admin_home',adminviews.admin_home,name='admin_home'),
+    path('admin_logout',adminviews.admin_logout,name='admin_logout'),
     path('manage_dealer',adminviews.manage_dealer,name='manage_dealer'),
     path('manage_users',adminviews.manage_users,name='manage_users'),
     path('add_dealer',adminviews.add_dealer,name='add_dealer'),
@@ -36,6 +36,8 @@ urlpatterns = [
     path('edit_dealer/<str:dealer_id>',adminviews.edit_dealer,name='edit_dealer'),
     path('save_edit_dealer',adminviews.save_edit_dealer,name='save_edit_dealer'),
     path('delete_dealer/<str:dealer_id>',adminviews.delete_dealer,name='delete_dealer'),
+    path('admin_view_product',adminviews.admin_view_product,name='admin_view_product'),
+
 
 
 
@@ -49,6 +51,7 @@ urlpatterns = [
     path('dealer_login',dealerviews.dealer_login,name='dealer_login'),
     path('dealer_dologin',dealerviews.dealer_dologin,name='dealer_dologin'),
     path('dealer_home',dealerviews.dealer_home,name='dealer_home'),
+    path('dealer_logout',dealerviews.dealer_logout,name='dealer_logout'),
     path('manage_product',dealerviews.manage_product,name='manage_product'),
     path('add_product',dealerviews.add_product,name='add_product'),
     path('add_product_save',dealerviews.add_product_save,name='add_product_save'),
@@ -65,6 +68,6 @@ urlpatterns = [
 
 
     #user Views
-
+    path("",customerviews.user__home,name="user_home"),
 
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
