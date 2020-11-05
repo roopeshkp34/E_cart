@@ -69,5 +69,11 @@ urlpatterns = [
 
     #user Views
     path("",customerviews.user__home,name="user_home"),
+    path("user_view_product/<str:product_id>",customerviews.user_view_product,name="user_view_product"),
+    path("user_cart",customerviews.user_cart,name="user_cart"),
+    path("user_checkout",customerviews.user_checkout,name="user_checkout"),
+
+
+
 
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

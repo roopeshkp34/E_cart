@@ -108,7 +108,7 @@ def add_product_save(request):
 @user_passes_test(lambda u: u.user_type == '2',login_url='dealer_login')
 def edit_product(request,product_id):
     product=Product.objects.get(id=product_id)
-    print(product)
+    # print(product)
     context ={
         "product":product,
     }
