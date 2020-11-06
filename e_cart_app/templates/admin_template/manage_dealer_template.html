@@ -49,7 +49,7 @@
                     </thead>
                     <tbody>
                     {% for dealer in dealers %}
-                      <tr>
+                      <tr data-toggle="modal" data-target="#reply_modal">
                         <td>{{ dealer.admin.id }}</td>
                         <td>{{ dealer.admin.first_name }}  {{ dealer.admin.last_name }}</td>
                         <td>{{ dealer.admin.username }}</td>
@@ -82,7 +82,31 @@
     </div>
   </section>
   <!-- /.content -->
+<!-- Modal -->
+<div class="modal fade" id="reply_modal" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Reply</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
 
+      </div>
+      <div class="modal-body">
+          <input type="hidden" id="reply_id" name="reply_id">
+        <p>Reply <span id="reply_name"></span></p>
+        <textarea class="form-control" rows="5" id="reply_message"></textarea>
+        <button id="reply_btn" class="btn btn-info btn-block">Reply</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!-- /.content -->
   
 </script>
   <script type="text/Javascript">

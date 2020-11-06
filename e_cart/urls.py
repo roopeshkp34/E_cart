@@ -72,6 +72,8 @@ urlpatterns = [
     path("user_view_product/<str:product_id>",customerviews.user_view_product,name="user_view_product"),
     path("user_cart",customerviews.user_cart,name="user_cart"),
     path("user_checkout",customerviews.user_checkout,name="user_checkout"),
+    path("update_item/",customerviews.updateItem,name="update_item"),
+
 
 
 

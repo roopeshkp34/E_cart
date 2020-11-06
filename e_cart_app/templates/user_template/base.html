@@ -24,6 +24,33 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			window.scrollTo(0, 1);
 		}
 	</script>
+	
+	<!-- checking user -->
+	<script type="text/javascript">
+		var user = '{{ request.user }}'
+
+		function getToken(name) {
+		    var cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = cookies[i].trim();
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+		  }
+      var csrftoken = getToken('csrftoken')
+    
+	</script>
+	<!-- checking user -->
+
+
+
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
 
 	<!--//tags -->
@@ -70,18 +97,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<a href="#" data-toggle="modal" data-target="#myModal1">
 							<span class="fa fa-unlock-alt"  aria-hidden="true"></span> Sign In </a>
 					</li>
-					<!-- <li>
-						<a href="#" data-toggle="modal" data-target="#myModal2">
-							<span class="fa fa-pencil-square-o" aria-hidden="true"></span> Sign Up </a>
-					</li> -->
+					
 					<li>
 						<!-- <div class="top_nav_right"> -->
 							<!-- <div class="wthreecartaits wthreecartaits2 cart cart box_1"> -->
-								<form action="#" method="post" class="last">
-									<input type="hidden" name="cmd" value="_cart">
-									<input type="hidden" name="display" value="1">
-									<button class="w3view-cart" type="submit" name="submit" value="">
-										<i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+								<form action="{% url 'user_cart' %}" method="post" >
+									{% csrf_token %}
+									<button  type="submit" name="submit" value="">
+										<img  id="cart-icon" src="{% static 'images/cart.png' %}">
+										<p id="cart-total">{{cartItems}}</p>
+
+
+										<!-- <i class="fa fa-cart-arrow-down" aria-hidden="true"></i> -->
 									</button>
 								</form>
 								
@@ -157,6 +184,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								
 								<li class="">
 									<a class="nav-stylehead" href="contact.html">Contact</a>
+								</li>
+								<li>
+									  <a href="{% url 'user_cart' %}">
+									  <img  id="cart-icon" src="{% static 'images/cart.png' %}">
+									  </a>
+									  <p id="cart-total">{{cartItems}}</p>
+								 
 								</li>
 							</ul>
 						</div>
@@ -344,6 +378,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<script src="{% static 'js/bootstrap.js' %}"></script>
 	<!-- //for bootstrap working -->
 	<!-- //js-files -->
+	<script src="{% static 'js/cart.js' %}"></script>
 
 
 </body>
