@@ -49,16 +49,17 @@
                     </thead>
                     <tbody>
                     {% for dealer in dealers %}
-                      <tr data-toggle="modal" data-target="#reply_modal">
+                      <tr>
                         <td>{{ dealer.admin.id }}</td>
                         <td>{{ dealer.admin.first_name }}  {{ dealer.admin.last_name }}</td>
                         <td>{{ dealer.admin.username }}</td>
                         <td>{{ dealer.admin.email }}</td>
                         <td>{{ dealer.mobile_number }}</td>
                         <td>{{ dealer.address }}</td>
-                        <td>{{ dealer.created_at }}</td>
+                        <td><img class="row-image" src="{{ dealer.imageURL }}" alt="" style="height: 100px;width: 100px;"></td>
 
-                        <td><a href="{% url 'edit_dealer' dealer.admin.id %}" class="btn btn-success">Edit</a>
+                        <td><a href="{% url 'view_dealer' dealer.id %}"  class="btn btn-success">View</a>
+                            <a href="{% url 'edit_dealer' dealer.admin.id %}" class="btn btn-success">Edit</a>
                           <form action="{% url 'delete_dealer' dealer.admin.id %}" method="POST" onsubmit="window.ondelete()" style="display: inline;" id="hi">
                             {% csrf_token %}
                           <button type="submit" class="btn btn-danger">Delete</button></td>
@@ -89,7 +90,7 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Reply</h4>
+        <h4 class="modal-title">{{ dealer.admin.firat_name }}</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
 
       </div>

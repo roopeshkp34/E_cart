@@ -30,6 +30,8 @@ urlpatterns = [
     path('admin_home',adminviews.admin_home,name='admin_home'),
     path('admin_logout',adminviews.admin_logout,name='admin_logout'),
     path('manage_dealer',adminviews.manage_dealer,name='manage_dealer'),
+    path('view_dealer/<str:dealer_id>',adminviews.view_dealer,name='view_dealer'),
+
     path('manage_users',adminviews.manage_users,name='manage_users'),
     path('add_dealer',adminviews.add_dealer,name='add_dealer'),
     path('save_add_dealer',adminviews.save_add_dealer,name='save_add_dealer'),
@@ -69,10 +71,15 @@ urlpatterns = [
 
     #user Views
     path("",customerviews.user__home,name="user_home"),
+    path("user_login",customerviews.user_login,name="user_login"),
+    path("signup",customerviews.signup,name="signup"),
+
     path("user_view_product/<str:product_id>",customerviews.user_view_product,name="user_view_product"),
     path("user_cart",customerviews.user_cart,name="user_cart"),
-    path("user_checkout",customerviews.user_checkout,name="user_checkout"),
+    path("user_checkout/",customerviews.user_checkout,name="user_checkout"),
     path("update_item/",customerviews.updateItem,name="update_item"),
+    path("process_order/",customerviews.processOrder,name="process_order"),
+
 
 
 

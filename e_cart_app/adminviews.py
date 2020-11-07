@@ -3,8 +3,15 @@ from django.contrib import messages
 from django.contrib.auth.models import User,auth
 from django.contrib.auth import login,authenticate,logout
 from django.http import HttpResponse,HttpResponseRedirect
-from e_cart_app.models import Dealer,CustomUser,Product
+from e_cart_app.models import *
 from django.contrib.auth.decorators import user_passes_test
+import base64
+from PIL import Image
+from base64 import decodestring
+from django.core.files.storage import FileSystemStorage
+from django.core.files import File
+from django.core.files.base import ContentFile
+
 
 
 def admin_login(request):
@@ -67,11 +74,21 @@ def save_add_dealer(request):
         username=request.POST.get('username')
         address=request.POST.get('address')
         mobile_number=request.POST.get('mobile')
+        image_data =request.POST.get('image64data')
+
+
+        value = image_data.strip('data:image/png;base64,')
+        
+        format, imgstr = image_data.split(';base64,')
+        ext = format.split('/')[-1]
+
+        data = ContentFile(base64.b64decode(imgstr),name='temp.' + ext)
 
         user=CustomUser.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name,user_type=2)
         # dealer=Dealer.objects.get(id=user)
         user.dealer.address=address
         user.dealer.mobile_number=mobile_number
+        user.dealer.image=data
         user.save()
         return redirect("/add_dealer")
     else:
@@ -90,6 +107,13 @@ def manage_dealer(request):
 
 
 
+def view_dealer(request,dealer_id):
+    dealers=Dealer.objects.get(id=dealer_id)
+    context={
+        "dealers":dealers,
+    }
+    return render(request,"admin_template/view_dealer.html",context)
+
 @user_passes_test(lambda u: u.is_superuser,login_url='admin_login')
 def manage_users(request):
     return render(request,"admin_template/manage_user_template.html")
@@ -97,7 +121,7 @@ def manage_users(request):
 
 
 
-
+ 
 
 @user_passes_test(lambda u: u.is_superuser,login_url='admin_login')
 def edit_dealer(request,dealer_id):
@@ -119,6 +143,14 @@ def save_edit_dealer(request):
         last_name=request.POST.get('last_name')
         address=request.POST.get('address')
         mobile_number=request.POST.get('mobile')
+        image_data =request.POST.get('image64data')
+
+        value = image_data.strip('data:image/png;base64,')
+        
+        format, imgstr = image_data.split(';base64,')
+        ext = format.split('/')[-1]
+
+        data = ContentFile(base64.b64decode(imgstr),name='temp.' + ext)
 
         user=CustomUser.objects.get(id=dealer_id)
         user.first_name=first_name
@@ -130,6 +162,7 @@ def save_edit_dealer(request):
         dealer=Dealer.objects.get(admin=dealer_id)
         dealer.address=address
         dealer.mobile_number=mobile_number
+        dealer.image = data
         dealer.save()
 
         return redirect("/edit_dealer/"+dealer_id)

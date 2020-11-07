@@ -1,0 +1,30 @@
+{% extends "admin_template/base.html" %}
+
+{%block content%}
+<div class="banner-bootom-w3-agileits">
+    <div class="container">
+        <div class="col-md-5 single-right-left ">
+            <div class="grid images_3_of_2">
+                <div class="flexslider">
+                    <ul class="slides">
+                        <li data-thumb="{{ dealers.imageURL }}">
+                            <div class="thumb-image">
+                                <img src="{{ dealers.imageURL }}" data-imagezoom="true" width="500px" class="img-responsive" alt=""> </div>
+                        </li>
+                      
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7 single-right-left simpleCart_shelfItem">
+            <h3>{{ dealers.admin.first_name }}</h3>
+            <p>
+                <span class="item_price">{{ dealers.address }}</span>
+                <span>{{ dealers.mobile_number }}</span>
+            </p>
+            
+     </div>
+     <a class="btn btn-outline-dark" href="{% url 'manage_dealer' %}">&#x2190; Back</a>
+</div>
+{% endblock %}

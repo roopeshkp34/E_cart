@@ -23,16 +23,29 @@ class Dealer(models.Model):
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     address=models.CharField(max_length = 200,null = True)
     mobile_number=models.CharField(max_length=13, null=True, blank=True)
+    image= models.ImageField(null = True, blank = True)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
+
+    @property
+    def imageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
 
 
 class Customer(models.Model):
-    admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    address=models.CharField(max_length = 200,null = True)
-    mobile_number=models.CharField(max_length=13, null=True, blank=True)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    name = models.CharField(max_length = 200,null = True)
+    email = models.CharField(max_length= 200, null = True)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
+
+    
+    def __str__(self):
+        return self.name
 
 class Product(models.Model):
     dealer_id=models.ForeignKey(Dealer,on_delete=models.CASCADE)
@@ -65,14 +78,14 @@ class Order(models.Model):
     def __str__(self):
         return str(self.id)
 
-    # @property
-    # def shipping(self): 
-    #     shipping = False
-    #     orderitems = self.orderitem_set.all()
-    #     for i in orderitems:
-    #         if i.product.digital == False:
-    #             shipping = True
-    #     return shipping
+    @property
+    def shipping(self): 
+        shipping = False
+        orderitems = self.orderitem_set.all()
+        for i in orderitems:
+            if i.product.digital == False:
+                shipping = True
+        return shipping
     
     @property
     def get_cart_total(self):
@@ -99,6 +112,20 @@ class OrderItem(models.Model):
         except:
             total = 0
         return total
+
+
+class ShippingAdress(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL,blank= True, null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank = True, null = True)
+    address = models.CharField(max_length = 200,null = True)
+    city = models.CharField(max_length = 200,null = True)
+    state = models.CharField(max_length = 200,null = True)
+    zipcode = models.CharField(max_length = 200,null = True)
+    country = models.CharField(max_length = 200,null = True)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.address
 
 
 @receiver(post_save, sender=CustomUser)
