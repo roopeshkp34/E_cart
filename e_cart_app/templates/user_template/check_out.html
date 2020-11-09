@@ -49,8 +49,8 @@
 
             <small>Payment</small>
             <div id="paypal-button-container"></div>
-            <button id="rzp-button1" class="btn btn-danger" style="width:100%" >Cash on Delivery</button>
-            <button id="make-payment" >Make payment</button>
+            <!-- <button id="rzp-button1" class="btn btn-danger" style="width:100%" >Cash on Delivery</button> -->
+            <button id="make-payment" class="btn btn-danger" style="width:100%" >Cash on Delivery</button>
 
         </div>
 
@@ -140,6 +140,7 @@
             shippingInfo.zipcode = form.zipcode.value
 
         }
+        // console.log("value:",form.address.value)
         if(user == 'AnonymousUser'){
             userFormData.name = form.name.value
             userFormData.email = form.email.value

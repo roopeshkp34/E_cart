@@ -56,16 +56,17 @@ def signup(request):
 
 
 def user__home(request):
-    # if request.user.is_superuser:
-    #     admin=request.user.id
-    #     order, created = Order.objects.get_or_create(customer=admin,complete=False)
-    #     items=order.orderitem_set.all()
-    #     cartItems=order.get_cart_items
-    if request.user.is_authenticated:
-        # login_user = request.user
-        # login_name = request.user.username
-        # login_email = request.user.email
-        # admin, created = Customer.objects.get_or_create(admin = login_user, name = login_name, email = login_email)
+    if request.user.is_superuser:
+        admin=request.user
+        order, created = Order.objects.get_or_create(customer=admin,complete=False)
+        items=order.orderitem_set.all()
+        cartItems=order.get_cart_items
+        return redirect('admin_home')
+    elif request.user.is_authenticated:
+        login_user = request.user
+        login_name = request.user.username
+        login_email = request.user.email
+        user, created = Customer.objects.get_or_create(user = login_user, name = login_name, email = login_email)
         # print(login_user)
         # print(login_name)
         # print(login_email)
@@ -191,8 +192,8 @@ def processOrder(request):
         if total == order.get_cart_total:
             order.complete = True
         order.save()
-
-        if order.shipping == 'True':
+        print(order.shipping)
+        if order.shipping == True:
             ShippingAdress.objects.create(
                 customer=customer,
                 order=order,
@@ -200,8 +201,9 @@ def processOrder(request):
                 city=data['shipping']['city'],
                 state=data['shipping']['state'],
                 zipcode=data['shipping']['zipcode'],
-
             )
+            # print(ShippingAdress.address)
+
     else:
         print("user is not loged in")
     return JsonResponse('Payment complete' , safe=False) 

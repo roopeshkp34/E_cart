@@ -56,9 +56,9 @@
                         <td>{{ dealer.admin.email }}</td>
                         <td>{{ dealer.mobile_number }}</td>
                         <td>{{ dealer.address }}</td>
-                        <td><img class="row-image" src="{{ dealer.imageURL }}" alt="" style="height: 100px;width: 100px;"></td>
+                        <td><a href="{% url 'view_dealer' dealer.id %}"><img class="row-image" src="{{ dealer.imageURL }}" alt="" style="height: 100px;width: 100px;"></a></td>
 
-                        <td><a href="{% url 'view_dealer' dealer.id %}"  class="btn btn-success">View</a>
+                        <td>
                             <a href="{% url 'edit_dealer' dealer.admin.id %}" class="btn btn-success">Edit</a>
                           <form action="{% url 'delete_dealer' dealer.admin.id %}" method="POST" onsubmit="window.ondelete()" style="display: inline;" id="hi">
                             {% csrf_token %}

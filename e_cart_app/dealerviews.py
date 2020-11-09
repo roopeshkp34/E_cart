@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User,auth
 from django.contrib.auth import login,authenticate,logout
 from django.http import HttpResponse,HttpResponseRedirect
-from e_cart_app.models import Dealer,CustomUser,Product
+from e_cart_app.models import *
 from django.contrib.auth.decorators import user_passes_test
 import base64
 from PIL import Image
@@ -154,5 +154,33 @@ def delete_product(request,product_id):
     product=Product.objects.get(id=product_id)
     product.delete()
     return redirect("manage_product")
+
+
+
+@user_passes_test(lambda u: u.user_type == '2',login_url='dealer_login')
+def dealer_order_view(request):
+    orders = Order.objects.all()
+    # print(orders[0].customer)
+    context = {
+        "orders":orders,
+    }
+
+    return render(request,"dealer_template/dealer_view_order.html",context)
+
+
+
+
+@user_passes_test(lambda u: u.user_type == '2',login_url='dealer_login')
+def update_order(request):
+    id = request.POST.get('order_id')
+    status = request.POST.get('order_status')
+    print(status)
+
+    order = Order.objects.get(id = id)
+    order.order_status = status
+    order.save()
+
+    return redirect('dealer_order_view')
+
 
     

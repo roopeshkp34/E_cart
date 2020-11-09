@@ -43,6 +43,7 @@
                         <th>Dealer</th>
                         <th>Quantity</th>
                         <th>Image</th>
+                        <th>Action</th>
                         
                       </tr>
                     </thead>
@@ -55,7 +56,18 @@
                         <td>{{ product.dealer_id.admin.first_name }}</td>
                         <th>{{ product.quantity }}</th>
                         <td><img class="row-image" src="{{ product.imageURL }}" alt="" style="height: 100px;width: 100px;"></td>
+                        <td>
+                          {% if product.active == 0 %}
+                          <a href="{% url 'admin_deactive' product.id %}" class="btn btn-info">Block</a>
+                          {%  else %}
+                          <a href="{% url 'admin_active' product.id %}" class="btn btn-danger">Unblock</a>
+                          {% endif %}
 
+                          <a href="{% url 'admin_edit_product' product.id %}" class="btn btn-success">Edit</a>
+                        <form action="{% url 'admin_delete_product' product.id %}" method="POST" onsubmit="window.ondelete()" style="display: inline;" id="hi">
+                          {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button></td>
+                      </form></td>
                         
                       </tr>
                     {% endfor %}

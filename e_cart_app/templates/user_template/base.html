@@ -104,8 +104,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<form action="{% url 'user_cart' %}" method="post" >
 									{% csrf_token %}
 									<button  type="submit" name="submit" value="">
-										<img  id="cart-icon" src="{% static 'images/cart.png' %}">
 										<p id="cart-total">{{cartItems}}</p>
+
+										<img  id="cart-icon" src="{% static 'images/cart.png' %}">
 
 
 										<!-- <i class="fa fa-cart-arrow-down" aria-hidden="true"></i> -->
@@ -143,17 +144,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<form action="#" method="post">
 					<select id="agileinfo-nav_search" name="agileinfo_search" required="">
 						<option value="">All Categories</option>
-						<option value="Kitchen">Kitchen</option>
-						<option value="Household">Household</option>
-						<option value="Snacks &amp; Beverages">Snacks & Beverages</option>
-						<option value="Personal Care">Personal Care</option>
-						<option value="Gift Hampers">Gift Hampers</option>
-						<option value="Fruits &amp; Vegetables">Fruits & Vegetables</option>
-						<option value="Baby Care">Baby Care</option>
-						<option value="Soft Drinks &amp; Juices">Soft Drinks & Juices</option>
-						<option value="Frozen Food">Frozen Food</option>
-						<option value="Bread &amp; Bakery">Bread & Bakery</option>
-						<option value="Sweets">Sweets</option>
+						<option value="Kitchen">Mobiles</option>
+						<option value="Household">Dress</option>
+						<option value="Snacks &amp; Beverages">Electronics</option>
+						<option value="Personal Care">Home </option>
+						<option value="Gift Hampers">Toys</option>
+						<option value="Fruits &amp; Vegetables">Sports</option>
+						
 					</select>
 				</form>
 			</div>
@@ -185,13 +182,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<li class="">
 									<a class="nav-stylehead" href="contact.html">Contact</a>
 								</li>
-								<li>
-									  <a href="{% url 'user_cart' %}">
-									  <img  id="cart-icon" src="{% static 'images/cart.png' %}">
-									  </a>
-									  <p id="cart-total">{{cartItems}}</p>
-								 
-								</li>
+								
 							</ul>
 						</div>
 					</div>
@@ -284,13 +275,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     {%block content%}
      {%endblock%}
 	
-<div class="copy-right">
+<!-- <div class="copy-right">
     <div class="container">
         <p>© 2017 Grocery Shoppy. All rights reserved | Design by
             <a href="http://w3layouts.com"> W3layouts.</a>
         </p>
     </div>
-</div>
+</div> -->
 	<!-- //copyright -->
 
 	<!-- js-files -->

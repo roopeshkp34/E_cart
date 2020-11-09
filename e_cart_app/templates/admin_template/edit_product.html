@@ -59,56 +59,47 @@
     </style>
 {% endblock custom_css %}
 {%block content%}
+
 <section class="content">
     <div class="container-fluid">
         <div class="col-md-12">
             <!-- general form elements -->
             <div class="card card-primary" style="margin-top: 20px;">
               <div class="card-header">
-                <h3 class="card-title" >Add Dealer</h3>
+                <h3 class="card-title" >Edit Product</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" action="/save_add_dealer" method="POST" >
+              <form role="form" action="/save_admin_edit_product" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="card-body">
-                  <div class="row">
-                  <div class="form-group col-lg-6">
-                    <label>Email address</label>
-                    <input type="email" class="input-xlarge" name="email" placeholder="Enter email" required  id="id_email" autocomplete="off">
+                  <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" class="input-xlarge" value="{{ product.product_name }}"  name="product_name" placeholder="Enter The Product Name" required  id="id_email" autocomplete="off">
+                    <input type="hidden" class="input-xlarge" value="{{ product.id}}"  name="product_id" placeholder="Enter The Product Name" required  id="id_email" autocomplete="off">
                   </div>
-                  <div class="form-group col-lg-6">
-                    <label>Password</label>
-                    <input type="password" class="input-xlarge" name="password" placeholder="Password" required>
+                  <div class="form-group">
+                    <label>Category</label>
+                    <select id="category" name="category" class="input-xlarge">
+                        <option>Mobiles</option>
+                        <option>Dress</option>
+                        <option>Electronics</option>
+                        <option>Home</option>
+                        <option>Toys</option>
+                        <option>Sports</option>
+                    </select>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="form-group col-lg-6">
-                    <label>First Name</label>
-                    <input type="text" class="input-xlarge" name="first_name" placeholder="First name" required>
+                  <div class="form-group">
+                    <label>Price</label>
+                    <input type="text"  name="price" value="{{ product.price }}" placeholder="Enter the Price" class="input-xlarge" required>
                   </div>
-                  <div class="form-group col-lg-6">
-                    <label>Last Name</label>
-                    <input type="text" class="input-xlarge" name="last_name" placeholder="Last name" required>
+                  <div class="form-group">
+                    <label> Quantity</label>
+                    <input type="text"  name="quantity" value="{{ product.quantity }}" placeholder="Quantity of Product" class="input-xlarge" required>
                   </div>
-                  </div>
-                  <div class="row">
-                  <div class="form-group col-lg-6">
-                    <label>Userame</label>
-                    <input type="text" class="input-xlarge" name="username" placeholder="Username" required id="id_username" autocomplete="off">
-                  </div>
-                  <div class="form-group col-lg-6">
-                    <label>Address</label>
-                    <input type="text" class="input-xlarge" name="address" placeholder="Address" required>
-                  </div>
-                  </div>
-                  <div class="row">
-                  <div class="form-group col-lg-6">
-                    <label>Mobile Number</label>
-                    <input type="number" class="input-xlarge" name="mobile" placeholder="Mobile Number" required>
-                  </div>
-                  </div>
-                  <div class="control-group">
+                  
+                   <!-- File Button --> 
+                   <div class="control-group">
                     <label class="control-label" for="photo"></label>
                     <div class="controls">
                         <input required = True id="imageBaseData" class="hidden" name="image64data" class="input-file" type="text" >
@@ -145,6 +136,7 @@
 
                     </div>
                     </div> 
+
                 </div>
                 <div class="form-group">
                     {% if messages %}
@@ -161,7 +153,7 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary btn-block">Add Dealer</button>
+                  <button type="submit" class="btn btn-primary btn-block">Edit Product</button>
                 </div>
               </form>
             </div>
@@ -171,10 +163,8 @@
     </div>
   </section>
   {% endblock %}
-
   {% block custom_js %}
 
-  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js"></script>
 
 

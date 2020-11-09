@@ -187,4 +187,71 @@ def admin_view_product(request):
         "product":product
     }
     return render(request,"admin_template/admin_view_product.html",context)
+
+
+
+
+@user_passes_test(lambda u: u.is_superuser,login_url='admin_login')
+def admin_edit_product(request,product_id):
+    product=Product.objects.get(id=product_id)
+    # print(product)
+    context ={
+        "product":product,
+    }
+    return render(request,"admin_template/edit_product.html",context)
+
+
+
+
+@user_passes_test(lambda u: u.is_superuser,login_url='admin_login')
+def save_admin_edit_product(request):
+    if request.method == 'POST':
+        product_id=request.POST.get('product_id')
+        product_name=request.POST.get('product_name')
+        price=request.POST.get('price')
+        quantity=request.POST.get('quantity')
+        category=request.POST.get('category')
+        image_data =request.POST.get('image64data')
+        value = image_data.strip('data:image/png;base64,')
+        
+        format, imgstr = image_data.split(';base64,')
+        ext = format.split('/')[-1]
+
+        data = ContentFile(base64.b64decode(imgstr),name='temp.' + ext)
+        item=Product.objects.get(id=product_id)
+        item.product_name = product_name
+        item.price = price
+        item.quantity = quantity
+        item.category=category
+        item.image = data
+        item.save()
+        return redirect("admin_view_product")
+    else:
+        return render(request,"admin_template/edit_product.html")
+
+
+
+@user_passes_test(lambda u: u.is_superuser,login_url='admin_login')
+def admin_delete_product(request,product_id):
+    product=Product.objects.get(id=product_id)
+    product.delete()
+    return redirect("admin_view_product")
+
+
+
+@user_passes_test(lambda u: u.is_superuser,login_url='admin_login')
+def admin_deactive(request,product_id):
+    product=Product.objects.get(id=product_id)
+    product.active=1
+    product.save()
+    return redirect("admin_view_product")
+
+
+
+@user_passes_test(lambda u: u.is_superuser,login_url='admin_login')
+def admin_active(request,product_id):
+    product=Product.objects.get(id=product_id)
+    product.active=0
+    product.save()
+    return redirect("admin_view_product")
     

@@ -40,10 +40,7 @@ class Customer(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     name = models.CharField(max_length = 200,null = True)
     email = models.CharField(max_length= 200, null = True)
-    created_at=models.DateTimeField(auto_now_add=True)
-    updated_at=models.DateTimeField(auto_now_add=True)
-
-    
+ 
     def __str__(self):
         return self.name
 
@@ -53,6 +50,7 @@ class Product(models.Model):
     price = models.FloatField()
     category=models.CharField(max_length = 200,null = True)
     quantity=models.IntegerField(default=0,null=True,blank=True)
+    active=models.IntegerField(default=0,null=True,blank=True)
     digital = models.BooleanField(default=False, null=True, blank=True)
     image = models.ImageField(null = True, blank = True)
 

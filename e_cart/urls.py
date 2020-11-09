@@ -31,7 +31,8 @@ urlpatterns = [
     path('admin_logout',adminviews.admin_logout,name='admin_logout'),
     path('manage_dealer',adminviews.manage_dealer,name='manage_dealer'),
     path('view_dealer/<str:dealer_id>',adminviews.view_dealer,name='view_dealer'),
-
+    path('admin_edit_product/<str:product_id>',adminviews.admin_edit_product,name='admin_edit_product'),
+    path('save_admin_edit_product',adminviews.save_admin_edit_product,name='save_admin_edit_product'),
     path('manage_users',adminviews.manage_users,name='manage_users'),
     path('add_dealer',adminviews.add_dealer,name='add_dealer'),
     path('save_add_dealer',adminviews.save_add_dealer,name='save_add_dealer'),
@@ -39,6 +40,11 @@ urlpatterns = [
     path('save_edit_dealer',adminviews.save_edit_dealer,name='save_edit_dealer'),
     path('delete_dealer/<str:dealer_id>',adminviews.delete_dealer,name='delete_dealer'),
     path('admin_view_product',adminviews.admin_view_product,name='admin_view_product'),
+    path('admin_delete_product/<str:product_id>',adminviews.admin_delete_product,name="admin_delete_product"),
+    path('admin_deactive/<str:product_id>',adminviews.admin_deactive,name="admin_deactive"),
+    path('admin_active/<str:product_id>',adminviews.admin_active,name="admin_active"),
+
+
 
 
 
@@ -60,6 +66,10 @@ urlpatterns = [
     path('edit_product/<str:product_id>',dealerviews.edit_product,name='edit_product'),
     path('save_edit_product',dealerviews.save_edit_product,name='save_edit_product'),
     path('delete_product/<str:product_id>',dealerviews.delete_product,name='delete_product'),
+    path('dealer_order_view',dealerviews.dealer_order_view,name='dealer_order_view'),
+    path('update_order/',dealerviews.update_order,name='update_order'),
+
+
 
 
 
