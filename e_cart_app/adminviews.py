@@ -50,7 +50,7 @@ def admin_home(request):
     return render(request,'admin_template/admin_home.html')
 
 
-
+ 
 
 def admin_logout(request):
     logout(request)
@@ -114,9 +114,9 @@ def view_dealer(request,dealer_id):
     }
     return render(request,"admin_template/view_dealer.html",context)
 
-@user_passes_test(lambda u: u.is_superuser,login_url='admin_login')
-def manage_users(request):
-    return render(request,"admin_template/manage_user_template.html")
+
+
+
 
 
 
@@ -255,3 +255,28 @@ def admin_active(request,product_id):
     product.save()
     return redirect("admin_view_product")
     
+
+
+
+@user_passes_test(lambda u: u.is_superuser,login_url='admin_login')
+def admin_order_view(request):
+    orders = Order.objects.all()
+    # print(orders[0].customer)
+    context = {
+        "orders":orders,
+    }
+
+    return render(request,"admin_template/admin_view_order.html",context)
+
+
+
+
+
+
+@user_passes_test(lambda u: u.is_superuser,login_url='admin_login')
+def manage_users(request):
+    customer=CustomUser.objects.filter(user_type=3)
+    context = {
+        "customers":customer,
+    }
+    return render(request,"admin_template/manage_user_template.html",context)

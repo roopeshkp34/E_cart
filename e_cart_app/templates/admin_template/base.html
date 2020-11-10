@@ -39,10 +39,22 @@
                   </li>
                   <li class="nav-item">
                     {% url 'manage_dealer' as manage_dealer %}
-                    <a href="{{ manage_dealer }}" class="nav-link {% if request.path == manage_dealer %} active {% endif %}">
+                    {% url 'add_dealer' as add_dealer %}
+                    {% url 'edit_dealer' as edit_dealer %}
+                    {% url 'view_dealer' as view_dealer %}
+                    <a href="{{ manage_dealer }}" class="nav-link {% if request.path == manage_dealer %} active {% endif %} {% if request.path == add_dealer %} active {% endif %} {% if request.path == edit_dealer %} active {% endif %} {% if request.path == view_dealer %} active {% endif %}">
                       <i class="nav-icon fas fa-home"></i>
                       <p>
                         Dealers
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    {% url 'admin_order_view' as admin_order_view %}
+                    <a href="{{ admin_order_view }}" class="nav-link {% if request.path == admin_order_view %} active {% endif %}">
+                      <i class="nav-icon fas fa-home"></i>
+                      <p>
+                        Orders
                       </p>
                     </a>
                   </li>

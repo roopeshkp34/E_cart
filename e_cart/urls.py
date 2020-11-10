@@ -43,6 +43,9 @@ urlpatterns = [
     path('admin_delete_product/<str:product_id>',adminviews.admin_delete_product,name="admin_delete_product"),
     path('admin_deactive/<str:product_id>',adminviews.admin_deactive,name="admin_deactive"),
     path('admin_active/<str:product_id>',adminviews.admin_active,name="admin_active"),
+    path('admin_order_view',adminviews.admin_order_view,name='admin_order_view'),
+
+
 
 
 
