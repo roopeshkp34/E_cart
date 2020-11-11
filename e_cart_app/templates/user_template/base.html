@@ -94,8 +94,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<span class="fa fa-phone" aria-hidden="true"></span> 001 234 5678
 					</li>
 					<li>
+						{% if user.is_authenticated %}
+						<a href="{% url 'user_logout' %}" >
+						<span class="fa fa-unlock-alt" aria-hidden="true"></span> Logout </a>
+						{% else %}
 						<a href="#" data-toggle="modal" data-target="#myModal1">
 							<span class="fa fa-unlock-alt" aria-hidden="true"></span> Sign In </a>
+						{% endif %}
+					</li>
+					<li>
+						<a href="{% url 'user_view_orders' %}"  >
+							<span class="fa fa-briefcase" aria-hidden="true"></span> Orders </a>
 					</li>
 					
 					<li>
@@ -138,7 +147,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</div>
 	<!-- //header-bot -->
 	<!-- navigation -->
-	<div class="ban-top">
+	<div class="ban-top">	
 		<div class="container">
 			<div class="agileits-navi_search">
 				<form action="#" method="post">
@@ -176,11 +185,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									</a>
 								</li>
 								<li class="">
-									<a class="nav-stylehead" href="about.html">About Us</a>
+									<a class="nav-stylehead" href="#">About Us</a>
 								</li>
 								
 								<li class="">
-									<a class="nav-stylehead" href="contact.html">Contact</a>
+									<a class="nav-stylehead" href="#">Contact</a>
+								</li>
+								<li>
+									{% if user.is_authenticated %}
+									<a style="font-style: italic;color: blue;font-weight: bold;">Hi,{{ user.username }}</a>
+									{% endif %}
 								</li>
 								
 							</ul>
@@ -205,7 +219,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="modal_body_left modal_body_left1">
 						<h3 class="agileinfo_sign">Sign In </h3>
 						<p>
-							Sign In now, Let's start your Grocery Shopping. Don't have an account?
+							Sign In now, Let's start your E-car Shopping. Don't have an account?
 							<a href="#" data-toggle="modal" data-target="#myModal2">
 								Sign Up Now</a>
 						</p>
@@ -219,6 +233,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</div>
 							<input type="submit" value="Sign In">
 						</form>
+						<p>Do you want to login with your Mobile number <a href="{% url 'mobile' %}">Login with Otp</a></p>
+						
+
 						<div class="clearfix"></div>
 					</div>
 					<div class="clearfix"></div>
@@ -244,20 +261,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="modal_body_left modal_body_left1">
 						<h3 class="agileinfo_sign">Sign Up</h3>
 						<p>
-							Come join the Grocery Shoppy! Let's set up your Account.
+							Come join the E-cart Shoppy! Let's set up your Account.
 						</p>
-						<form action="#" method="post">
+						<form action="{% url 'signup' %}" method="post">
+							{% csrf_token %}
 							<div class="styled-input agile-styled-input-top">
-								<input type="text" placeholder="Name" name="Name" required="">
+								<input type="email" placeholder="Enter email" name="email" required="">
 							</div>
 							<div class="styled-input">
-								<input type="email" placeholder="E-mail" name="Email" required="">
+								<input type="password" placeholder="Password" name="password" required="">
 							</div>
 							<div class="styled-input">
-								<input type="password" placeholder="Password" name="password" id="password1" required="">
+								<input type="text" placeholder="Enter the Name" name="username"  required="">
 							</div>
 							<div class="styled-input">
-								<input type="password" placeholder="Confirm Password" name="Confirm Password" id="password2" required="">
+								<input type="text" placeholder="Enter the Mobile number" name="mobile_number"  required="">
 							</div>
 							<input type="submit" value="Sign Up">
 						</form>

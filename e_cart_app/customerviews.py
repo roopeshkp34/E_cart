@@ -6,8 +6,107 @@ import datetime
 from django.contrib.auth.models import User,auth
 from django.contrib.auth import login,authenticate,logout
 from django.contrib import messages
+import requests
 
 
+
+
+
+def mobile(request):
+    if request.method == 'POST':
+        mobile = request.POST.get('mobile')
+        print(mobile)
+        responce = redirect('otp')
+        responce.set_cookie('mobile', mobile)
+        return responce
+
+    return render(request, 'user_template/mobile.html')
+
+
+def otp(request):
+    if request.method == 'GET':
+        phone = request.COOKIES['mobile']
+        print(phone)
+        user = CustomUser.objects.filter(last_name = phone).exists()
+        print(user)
+        if not user:
+            messages.info(request,'The mobile number is not registered')
+            return redirect('mobile')
+            
+        url = "https://d7networks.com/api/verifier/send"
+        num = str(91)+phone
+
+
+        payload = {'mobile': num,
+        'sender_id': 'SMSINFO',
+        'message': 'Your otp code is {code}',
+        'expiry': '900'}
+        files = [
+
+        ]
+        headers = {
+        'Authorization': 'Token 51fcb7ecb743790e4299f267497ee164496621bd'
+        }
+
+        response = requests.request("POST", url, headers=headers, data = payload, files = files)
+
+        print(response.text.encode('utf8'))
+
+
+        otp_id = response.text[11:47] 
+        print(otp_id)                                                          
+        responce  = render(request, 'user_template/otp.html')
+        responce.set_cookie('otp_id', otp_id)
+        return responce
+
+    else:
+
+        otp = request.POST.get('otp')
+        print(otp)
+
+        otp_id = request.COOKIES['otp_id']
+
+        url = "https://d7networks.com/api/verifier/resend"
+
+        payload = {'otp_id': otp_id,
+        'otp_code': otp
+        }
+        files = [
+
+        ]
+        headers = {
+        'Authorization': 'Token 51fcb7ecb743790e4299f267497ee164496621bd'
+        }
+
+        response = requests.request("POST", url, headers=headers, data = payload, files = files)
+
+
+        b = json.loads(response.text)
+        try:
+            print(b["status"])
+        except:
+            b["status"] = 'failed'
+            print(b["status"])
+        if (b["status"] == "open"):
+            phone = request.COOKIES['mobile']
+            user = CustomUser.objects.get(last_name = phone )
+            print(user)
+            username = user.username
+            password = user.first_name
+            print(password)
+            print(username)
+            user = auth.authenticate(request, username = username, password = password)
+            print(user)
+            if user is not None:
+                auth.login(request,user)
+                print('login request')
+                return redirect('/')
+            else:
+                messages.info(request, 'OTP did not match')
+                return redirect('mobile')
+        print(response.text.encode('utf8'))
+        messages.info(request, 'OTP did not match')
+        return redirect('mobile')
 
 
 
@@ -36,6 +135,11 @@ def user_login(request):
         return render(request,'user_template/user_home.html')
 
 
+def user_logout(request):
+    logout(request)
+    return redirect("/")
+
+
 def signup(request):
     if request.method == 'POST':
         email= request.POST.get('email')
@@ -46,7 +150,7 @@ def signup(request):
         user = CustomUser.objects.create_user(username = username, password = password, email = email,first_name=password,last_name=mobile_number,user_type=3)
         # user.customer.mobile_number=mobile_number
         user.save()
-        return redirect('/')
+        return redirect("/")
 
     else:
         return render(request,'user_template/user_signup.html')
@@ -207,3 +311,37 @@ def processOrder(request):
     else:
         print("user is not loged in")
     return JsonResponse('Payment complete' , safe=False) 
+
+
+
+
+def user_view_orders(request):
+    try:
+        customer=request.user.customer
+        print(customer)
+        order=Order.objects.filter(customer=customer,complete=True)
+        items =[]
+        for i in order:
+            details=OrderItem.objects.filter(order=i,product__isnull=False)
+            for j in details:
+                items.append(j)
+
+        if request.user.is_authenticated:
+            customer=request.user.customer
+            order, created = Order.objects.get_or_create(customer=customer,complete=False)
+            # items=order.orderitem_set.all()
+            cartItems=order.get_cart_items
+
+        else:
+            # items=[]
+            order ={'get_cart_total':0,'get_cart_items':0,'shipping':False}
+            cartItems=order['get_cart_items']
+    except:
+        return redirect("/")
+    context ={
+        "items":items,
+        "order":order,
+        "cartItems":cartItems,
+
+    }
+    return render(request,"user_template/user_view_orders.html",context)

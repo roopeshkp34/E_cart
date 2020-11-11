@@ -64,13 +64,13 @@
                             {% endfor %}
                             {% if order.order_status == 'Pending' %}
                         <td>
-                        <button type="button" class="actual_status btn btn-info btn-md px-3" class="actual_status btn btn-info btn-md">{{order.order_status}}</button>
+                        <button type="button" class="actual_status btn btn-info btn-md px-3" >{{order.order_status}}</button>
                         <button type="button" class="btn btn-light dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {% elif order.order_status == 'Out for delivery' %}
-                        <button type="button" class="actual_status btn btn-warning btn-md" class="actual_status btn btn-info btn-md">{{order.order_status}}</button>
+                        <button type="button" class="actual_status btn btn-warning btn-md">{{order.order_status}}</button>
                         <button type="button" class="btn btn-light dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {% elif order.order_status == 'Completed' %}
-                        <button type="button" class="actual_status btn btn-success btn-md" class="actual_status btn btn-info btn-md">{{order.order_status}}</button></td>
+                        <button type="button" class="actual_status btn btn-success btn-md" >{{order.order_status}}</button>
                         <!-- <button type="button" class="btn btn-light dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
                         {%endif%}
                         <!-- <span class="sr-only">Toggle Dropdown</span>
@@ -90,6 +90,7 @@
                            
                             {%endif%}
                         </div> -->
+
                         <div class="dropdown show">
                             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             </a>
@@ -103,6 +104,8 @@
                               {% endif %}
                             </div>
                           </div>
+                      </td>
+
                         
                       </tr>
                       {% endif %}
@@ -123,11 +126,7 @@
            
     </div>
   </section>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
-  <script
-  src="https://code.jquery.com/jquery-3.5.1.js"
-  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-  crossorigin="anonymous"></script>
+
  
   <script>
 
@@ -166,7 +165,9 @@ function getCookie(name) {
      console.log('orderId:', orderId, 'status :', status)
      var top = document.getElementsByClassName('actual_status')
      top[0].innerHTML = status
-     // window.location.reload()
+    updateUserOrder(orderId, status)
+
+    //  window.location.reload()
     
     // $.ajax({
     //     url: '/update_order/',
@@ -178,22 +179,42 @@ function getCookie(name) {
     //     },
     // });
     
-      $.ajax({
-        url:'/update_order/',
-        type:'post',
-        data: {
-          orderId:1,
-          csrfmiddlewaretoken:csrftoken
-        },
-        success: function(re){
-          console.log(re);
-        },
-        error : function(err){
-          console.log(err);
-        }
+      // $.ajax({
+      //   url:'/update_order/',
+      //   type:'post',
+      //   data: {
+      //     orderId:1,
+      //     csrfmiddlewaretoken:csrftoken
+      //   },
+      //   success: function(re){
+      //     console.log(re);
+      //   },
+      //   error : function(err){
+      //     console.log(err);
+      //   }
         
-      })
+      // })
 
+    })
+
+}
+function updateUserOrder(orderId, status){
+  console.log("user is loged in sending data")
+  var url ='/update_order/'
+  fetch(url,{
+        method:'POST',
+        headers:{
+            'Constant-Type':'application/Json',
+            'X-CSRFToken':csrftoken,
+        },
+        body:JSON.stringify({'orderId':orderId, 'status':status})
+    })
+    .then((response) =>{
+        return response.json()
+    })
+    .then((data) =>{
+        console.log('data:', data)
+        location.reload()
     })
 
 }

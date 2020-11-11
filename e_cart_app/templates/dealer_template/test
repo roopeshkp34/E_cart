@@ -1,0 +1,59 @@
+updateUserOrder(orderId, status)
+     
+    //  if(user == 'AnonymousUser'){
+    //         console.log("Not loged in")
+    //     }else{
+    //         updateUserOrder(productId, status)
+    //     }
+     // window.location.reload()
+    
+    // $.ajax({
+    //     url: '/update_order/',
+    //     type: 'post',
+    //     data: {
+    //         order_id: orderId,
+    //         order_status:status,
+    //         csrfmiddlewaretoken: csrftoken,
+    //     },
+    // });
+    
+      // $.ajax({
+      //   url:'/update_order/',
+      //   type:'post',
+      //   data: {
+      //     orderId:1,
+      //     csrfmiddlewaretoken:csrftoken
+      //   },
+      //   success: function(re){
+      //     console.log(re);
+      //   },
+      //   error : function(err){
+      //     console.log(err);
+      //   }
+        
+      // })
+
+    })
+
+}
+function updateUserOrder(orderId, status){
+  console.log("user is loged in sending data")
+  var url ='/update_order/'
+  fetch(url,{
+        method:'POST',
+        headers:{
+            'Constant-Type':'application/Json',
+            'X-CSRFToken':csrftoken,
+        },
+        body:JSON.stringify({'orderId':orderId, 'status':status})
+    })
+    .then((response) =>{
+        return response.json()
+    })
+    .then((data) =>{
+        console.log('data:', data)
+        location.reload()
+    })
+
+}
+    

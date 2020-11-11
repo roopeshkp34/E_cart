@@ -11,6 +11,7 @@ from base64 import decodestring
 from django.core.files.storage import FileSystemStorage
 from django.core.files import File
 from django.core.files.base import ContentFile
+import json
 
 
 def dealer_login(request):
@@ -170,13 +171,15 @@ def dealer_order_view(request):
 
 
 
-@user_passes_test(lambda u: u.user_type == '2',login_url='dealer_login')
 def update_order(request):
-    id = request.POST.get('order_id')
-    status = request.POST.get('order_status')
-    print(status)
+    data = json.loads(request.body)
+    # print(data)
+    orderId=data['orderId']
+    status=data['status']
 
-    order = Order.objects.get(id = id)
+    # print(status)
+
+    order = Order.objects.get(id = orderId)
     order.order_status = status
     order.save()
 

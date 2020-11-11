@@ -83,8 +83,12 @@ urlpatterns = [
 
 
     #user Views
+    path('mobile',customerviews.mobile,name='mobile'),
+    path('otp',customerviews.otp,name='otp'),
+
     path("",customerviews.user__home,name="user_home"),
     path("user_login",customerviews.user_login,name="user_login"),
+    path("user_logout",customerviews.user_logout,name="user_logout"),
     path("signup",customerviews.signup,name="signup"),
 
     path("user_view_product/<str:product_id>",customerviews.user_view_product,name="user_view_product"),
@@ -92,6 +96,8 @@ urlpatterns = [
     path("user_checkout/",customerviews.user_checkout,name="user_checkout"),
     path("update_item/",customerviews.updateItem,name="update_item"),
     path("process_order/",customerviews.processOrder,name="process_order"),
+    path("user_view_orders",customerviews.user_view_orders,name="user_view_orders"),
+
 
 
 
