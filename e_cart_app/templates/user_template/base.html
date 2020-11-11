@@ -4,6 +4,8 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
+{% load socialaccount %}
+{% providers_media_js %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="zxx">
@@ -234,6 +236,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<input type="submit" value="Sign In">
 						</form>
 						<p>Do you want to login with your Mobile number <a href="{% url 'mobile' %}">Login with Otp</a></p>
+						<p>Join with Your facebook <a href="{% provider_login_url "facebook" method="oauth2" %}">Login with Fb</a></p>
+						<p>Join with Your Google Account<a href="{% provider_login_url "google" %}">Login with Google</a></p>
+						<p>Join with Your Github Account<a href="{% provider_login_url "github" %}">Login with Github</a></p>
+
 						
 
 						<div class="clearfix"></div>

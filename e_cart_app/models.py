@@ -134,7 +134,7 @@ def create_profile(sender, instance, created, **kwargs):
         if instance.user_type==2:
             Dealer.objects.create(admin = instance)
         if instance.user_type==3:
-            Customer.objects.create(admin = instance)
+            Customer.objects.create(user = instance)
 
 
 

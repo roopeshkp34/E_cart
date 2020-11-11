@@ -166,6 +166,12 @@ def user__home(request):
         items=order.orderitem_set.all()
         cartItems=order.get_cart_items
         return redirect('admin_home')
+    # elif CustomUser.user_type == 2:
+    #     admin=request.user
+    #     order, created = Order.objects.get_or_create(customer=admin,complete=False)
+    #     items=order.orderitem_set.all()
+    #     cartItems=order.get_cart_items
+    #     return redirect('dealer_login')
     elif request.user.is_authenticated:
         login_user = request.user
         login_name = request.user.username
