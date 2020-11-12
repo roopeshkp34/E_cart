@@ -7,6 +7,8 @@ from django.contrib.auth.models import User,auth
 from django.contrib.auth import login,authenticate,logout
 from django.contrib import messages
 import requests
+import razorpay
+
 
 
 
@@ -201,7 +203,7 @@ def user__home(request):
 def user_view_product(request,product_id):
     product=Product.objects.get(id=product_id)
     if request.user.is_authenticated:
-        admin=request.user.id
+        admin=request.user.customer
         order, created = Order.objects.get_or_create(customer=admin,complete=False)
         items=order.orderitem_set.all()
         cartItems=order.get_cart_items
@@ -243,19 +245,39 @@ def user_checkout(request):
         order, created = Order.objects.get_or_create(customer=customer,complete=False)
         items=order.orderitem_set.all()
         cartItems=order.get_cart_items
+        print(items)
 
     else:
         items=[]
         order ={'get_cart_total':0,'get_cart_items':0,'shipping':False}
         cartItems=order['get_cart_items']
+    client  = razorpay.Client(auth=("rzp_test_60LoLFkXcaDMVN", "sAlIyuylw1Ox8h7ryZVy7Y1c"))
 
-    context ={
-        "items":items,
-        "order":order,
-        "cartItems":cartItems,
+    if request.user.is_authenticated:
+        total = int(order.get_cart_total*100)
+    else:
+        total = int(order['get_cart_total']*100)
+    print(total)
+    order_amount = total
+    order_currency = 'USD'
+    order_receipt = 'order_rcptid_11'
+    if order_amount == 0:
+        return redirect('cart')
+    else:
 
-    }
-    return render(request,"user_template/check_out.html",context)
+
+        response = client.order.create(dict(amount=order_amount, currency=order_currency, receipt=order_receipt,payment_capture = 0) )
+        order_id = response['id']
+        order_status = response['status']
+        context ={
+            "items":items,
+            "order":order,
+            "cartItems":cartItems,
+            'order_id':order_id,
+
+        }
+    
+        return render(request,"user_template/check_out.html",context)
 
 
 

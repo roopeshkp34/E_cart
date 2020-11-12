@@ -126,6 +126,7 @@ class ShippingAdress(models.Model):
         return self.address
 
 
+
 @receiver(post_save, sender=CustomUser)
 def create_profile(sender, instance, created, **kwargs):
     if created:
