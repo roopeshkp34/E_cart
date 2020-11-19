@@ -23,16 +23,16 @@
                     <p>Shipping Information:</p>
                     <hr>
                     <div class="form-field">
-                        <input class="form-control" type="text" name="address" placeholder="Address..">
+                        <input class="form-control" type="text" id="add1" name="address" placeholder="Address..">
                     </div>
                     <div class="form-field">
-                        <input class="form-control" type="text" name="city" placeholder="City..">
+                        <input class="form-control" type="text" id="city" name="city" placeholder="City..">
                     </div>
                     <div class="form-field">
-                        <input class="form-control" type="text" name="state" placeholder="State..">
+                        <input class="form-control" type="text" id="stat" name="state" placeholder="State..">
                     </div>
                     <div class="form-field">
-                        <input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
+                        <input class="form-control" type="text" id="zip" name="zipcode" placeholder="Zip code..">
                     </div>
 
                    
@@ -85,6 +85,29 @@
     
 
 </div>
+<div class="col-md-4" id="select">
+    {% if user.is_authenticated %}
+        <div>
+            <div class="section-title">
+                <h3 class="title">Select address</h3>
+            </div>
+            {% for shi in shipping %}
+                <div class="col-md-4">
+                    <div class="card text-center card-product"
+                        style="background-color:rgba(0, 0, 255, 0.1);; color: black;">
+                        <div class="card-body" style="color: black;">
+                            <h6 id="addd1" data-mo="{{shi.address}}" style="padding-top: 20px;">{{shi.address}}</h6>
+                            <p id="addd2">{{shi.city}}</p>
+                            <p id="addd3">{{shi.state}}</p>
+                            <p id="addd4">{{shi.zipcode}}</p>
+                            <input id="myCheck" name="{{shi.id}}" type="checkbox">
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+	{% endif %}
+    </div>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
@@ -184,6 +207,8 @@
         e.preventDefault()
         console.log('Form submited')
         document.getElementById('form-button').classList.add('hidden')
+        document.getElementById('select').classList.add('hidden')
+
         document.getElementById('payment-info').classList.remove('hidden')
 
     })
@@ -240,7 +265,54 @@
 
     }
 </script>
+<!-- 
+multiple address -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        const a1 = document.querySelectorAll('#addd1')
+        var yyy = document.querySelectorAll("#myCheck")
+        // 
+        console.log(a1)
+        console.log(yyy);
+        yyy.forEach((dd) => {
+            const sss = dd.name
+            console.log(sss);
 
+            $(dd).change(function () {
+                if (dd.checked == true) {
+                    console.log("error")
+                    console.log(dd.name)
+
+                    $.ajax({
+                        url: '/getshipping/',
+                        type: 'GET',
+                        data: {
+                            ship_id: dd.name
+                        },
+                        success: function (response) {
+                            console.log(response.count2.address)
+                            console.log(response.count2.city)
+                            console.log(response.count2.state)
+                            console.log(response.count2.zipcode)
+
+                            $("#add1").val(response.count2.address)
+                            $("#city").val(response.count2.city)
+                            $("#stat").val(response.count2.state)
+                            $("#zip").val(response.count2.zipcode)
+                        }
+                    });
+                } else {
+                    $("#add1").val("")
+                    $("#city").val("")
+                    $("#stat").val("")
+                    $("#zip").val("")
+                }
+            })
+            // console.log(yyy)
+        })
+    })
+</script>
 
 {% endblock content %}
 

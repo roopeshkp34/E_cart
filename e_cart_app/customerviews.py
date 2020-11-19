@@ -8,6 +8,7 @@ from django.contrib.auth import login,authenticate,logout
 from django.contrib import messages
 import requests
 import razorpay
+from django.views.generic import View
 
 
 
@@ -246,6 +247,7 @@ def user_checkout(request):
         items=order.orderitem_set.all()
         cartItems=order.get_cart_items
         print(items)
+        ship = ShippingAdress.objects.filter(customer=customer).distinct()
 
     else:
         items=[]
@@ -262,7 +264,7 @@ def user_checkout(request):
     order_currency = 'USD'
     order_receipt = 'order_rcptid_11'
     if order_amount == 0:
-        return redirect('cart')
+        return redirect('user_cart')
     else:
 
 
@@ -274,10 +276,34 @@ def user_checkout(request):
             "order":order,
             "cartItems":cartItems,
             'order_id':order_id,
+            "shipping":ship
 
         }
     
         return render(request,"user_template/check_out.html",context)
+
+
+
+class Getshipping(View):
+    def get(self, request):
+        text = request.GET.get('ship_id')
+        print(text)
+
+        shipi = ShippingAdress.objects.get(id=text)
+
+        a = shipi.address
+        b = shipi.city
+        vb = {
+            'address': shipi.address,
+            'city': shipi.city,
+            'state': shipi.state,
+            'zipcode': shipi.zipcode,
+
+        }
+        return JsonResponse({'count2': vb}, status=200)
+        return redirect('/')
+
+
 
 
 

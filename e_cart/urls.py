@@ -99,6 +99,7 @@ urlpatterns = [
     path("update_item/",customerviews.updateItem,name="update_item"),
     path("process_order/",customerviews.processOrder,name="process_order"),
     path("user_view_orders",customerviews.user_view_orders,name="user_view_orders"),
+    path('getshipping/',customerviews.Getshipping.as_view()),
 
 
 
