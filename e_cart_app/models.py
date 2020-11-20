@@ -52,7 +52,7 @@ class Product(models.Model):
     quantity=models.IntegerField(default=0,null=True,blank=True)
     active=models.IntegerField(default=0,null=True,blank=True)
     digital = models.BooleanField(default=False, null=True, blank=True)
-    image = models.ImageField(null = True, blank = True)
+    image = models.ImageField(null = True, blank = True,upload_to='product/images')
 
     def __str__(self):
         return self.product_name
@@ -64,6 +64,21 @@ class Product(models.Model):
         except:
             url = ''
         return url
+
+
+class Product_images(models.Model):
+    id=models.AutoField(primary_key=True)
+    product_id = models.ForeignKey(Product,on_delete=models.CASCADE)
+    product_image = models.FileField(max_length=2555,upload_to='product/images')
+
+    @property
+    def imageURL(self):
+        try:
+            url = self.product_image.url
+        except:
+            url = ''
+        return url
+
 
 
 class Order(models.Model):

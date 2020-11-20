@@ -23,18 +23,30 @@
                             <div class="thumb-image">
                                 <img src="{{ product.imageURL }}" data-imagezoom="true" class="img-responsive" alt=""> </div>
                         </li>
-                        <li data-thumb="/static/images/si2.jpg">
+                        <li data-thumb="images/si2.jpg">
                             <div class="thumb-image">
-                                <img src="/static/images/si2.jpg" data-imagezoom="true" class="img-responsive" alt=""> </div>
+                                <img src="{% static 'images/si2.jpg' %}" data-imagezoom="true" class="img-responsive" alt=""> </div>
                         </li>
                         <li data-thumb="images/si3.jpg">
                             <div class="thumb-image">
-                                <img src="/static/images/si3.jpg" data-imagezoom="true" class="img-responsive" alt=""> </div>
+                                <img src="{% static 'images/si3.jpg' %}" data-imagezoom="true" class="img-responsive" alt=""> </div>
                         </li>
                     </ul>
                     <div class="clearfix"></div>
                 </div>
             </div>
+            <!-- <div id="sync1" class="owl-carousel owl-theme">
+                 <div class="item">
+                     <img src="{{ product.imageURL }}" data-imagezoom="true" class="img-responsive" alt="">
+                 </div>
+             </div>
+             <div id="sync2" class="owl-carousel owl-theme">
+                 <div class="item">
+                     <img src="{% static 'images/si2.jpg' %}" data-imagezoom="true" class="img-responsive" alt="">
+                 </div>
+                 
+             
+             </div> -->
         </div>
         <div class="col-md-7 single-right-left simpleCart_shelfItem">
             <h3>{{ product.product_name }}</h3>

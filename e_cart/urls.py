@@ -73,6 +73,8 @@ urlpatterns = [
     path('delete_product/<str:product_id>',dealerviews.delete_product,name='delete_product'),
     path('dealer_order_view',dealerviews.dealer_order_view,name='dealer_order_view'),
     path('update_order/',dealerviews.update_order,name='update_order'),
+    path('add_offers',dealerviews.add_offers,name='add_offers'),
+
 
 
 

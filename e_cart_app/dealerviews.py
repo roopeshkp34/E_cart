@@ -86,17 +86,25 @@ def add_product_save(request):
         price=request.POST.get('price')
         quantity=request.POST.get('quantity')
         category=request.POST.get('category')
-        image_data =request.POST.get('image64data')
+        # image_data =request.POST.get('image64data')
         dealer_id=Dealer.objects.get(admin=request.user.id)
-        value = image_data.strip('data:image/png;base64,')
+        # value = image_data.strip('data:image/png;base64,')
         
-        format, imgstr = image_data.split(';base64,')
-        ext = format.split('/')[-1]
+        # format, imgstr = image_data.split(';base64,')
+        # ext = format.split('/')[-1]
 
-        data = ContentFile(base64.b64decode(imgstr),name='temp.' + ext)
+        # data = ContentFile(base64.b64decode(imgstr),name='temp.' + ext)
+        product_image = request.FILES['image1']
+        images = request.FILES.getlist('file[]')
 
-        item = Product(product_name = product_name,dealer_id=dealer_id,price = price, quantity = quantity,category=category, image = data)
+        item = Product(product_name = product_name,dealer_id=dealer_id,price = price, quantity = quantity,category=category, image = product_image)
         item.save()
+
+        for image in images:
+            fs=FileSystemStorage()
+            file_path=fs.save(image.name,image)
+            pimage=Product_images(product_id=item,product_image=file_path)
+            pimage.save()
         return redirect("add_product")
 
     else:
@@ -126,22 +134,30 @@ def save_edit_product(request):
         price=request.POST.get('price')
         quantity=request.POST.get('quantity')
         category=request.POST.get('category')
-        image_data =request.POST.get('image64data')
+        product_image = request.FILES['image1']
+        images = request.FILES.getlist('file[]')
+        # image_data =request.POST.get('image64data')
         dealer_id=Dealer.objects.get(admin=request.user.id)
-        value = image_data.strip('data:image/png;base64,')
+        # value = image_data.strip('data:image/png;base64,')
         
-        format, imgstr = image_data.split(';base64,')
-        ext = format.split('/')[-1]
+        # format, imgstr = image_data.split(';base64,')
+        # ext = format.split('/')[-1]
 
-        data = ContentFile(base64.b64decode(imgstr),name='temp.' + ext)
+        # data = ContentFile(base64.b64decode(imgstr),name='temp.' + ext)
+        
         item=Product.objects.get(id=product_id)
         item.product_name = product_name
         item.dealer_id=dealer_id
         item.price = price
         item.quantity = quantity
         item.category=category
-        item.image = data
+        item.image = product_image
         item.save()
+        for image in images:
+            fs=FileSystemStorage()
+            file_path=fs.save(image.name,image)
+            pimage=Product_images(product_id=item,product_image=file_path)
+            pimage.save()
         return redirect("manage_product")
     else:
         return render(request,"dealer_template/edit_product.html")
@@ -184,6 +200,11 @@ def update_order(request):
     order.save()
 
     return redirect('dealer_order_view')
+
+
+
+def add_offers(request):
+    return render(request,"dealer_template/add_offer.html")
 
 
     
