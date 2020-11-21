@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
-from e_cart_app.models import Order,OrderItem,Product,ShippingAdress,Customer,CustomUser,Dealer
+from e_cart_app.models import *
 import json
 import datetime
 from django.contrib.auth.models import User,auth
@@ -203,6 +203,8 @@ def user__home(request):
 
 def user_view_product(request,product_id):
     product=Product.objects.get(id=product_id)
+    product_images = Product_images.objects.filter(product_id=product)
+    print(product_images)
     if request.user.is_authenticated:
         admin=request.user.customer
         order, created = Order.objects.get_or_create(customer=admin,complete=False)
@@ -216,6 +218,7 @@ def user_view_product(request,product_id):
         "items":items,
         "product":product,
         "cartItems":cartItems,
+        "product_images":product_images,
     }
     return render(request,"user_template/user_view_product.html",context)
 
@@ -316,7 +319,11 @@ def updateItem(request):
 
     customer=request.user.customer
     product=Product.objects.get(id=productId)
+    dealer=product.dealer_id
+    print("dealer",dealer)
     order, created = Order.objects.get_or_create(customer=customer,complete=False)
+    order.dealer_id=dealer
+    order.save()
     
     orderItem, created = OrderItem.objects.get_or_create(order=order,product=product)
 

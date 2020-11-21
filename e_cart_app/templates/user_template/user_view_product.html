@@ -23,14 +23,16 @@
                             <div class="thumb-image">
                                 <img src="{{ product.imageURL }}" data-imagezoom="true" class="img-responsive" alt=""> </div>
                         </li>
-                        <li data-thumb="/static/images/si2.jpg">
+                        {% for images in product_images%}
+                        <li data-thumb="{{ images.imageURL }}">
                             <div class="thumb-image">
-                                <img src="/static/images/si2.jpg" data-imagezoom="true" class="img-responsive" alt=""> </div>
+                                <img src="{{ images.imageURL }}" data-imagezoom="true" class="img-responsive" alt=""> </div>
                         </li>
-                        <li data-thumb="images/si3.jpg">
+                        {% endfor %}
+                        <!-- <li data-thumb="images/si3.jpg">
                             <div class="thumb-image">
                                 <img src="/static/images/si3.jpg" data-imagezoom="true" class="img-responsive" alt=""> </div>
-                        </li>
+                        </li> -->
                     </ul>
                     <div class="clearfix"></div>
                 </div>

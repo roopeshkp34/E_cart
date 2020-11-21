@@ -176,7 +176,10 @@ def delete_product(request,product_id):
 
 @user_passes_test(lambda u: u.user_type == '2',login_url='dealer_login')
 def dealer_order_view(request):
-    orders = Order.objects.all()
+    user=request.user.id
+    dealer=Dealer.objects.get(admin=user)
+    # print("dealer",dealer)
+    orders = Order.objects.filter(dealer_id=dealer)
     # print(orders[0].customer)
     context = {
         "orders":orders,
