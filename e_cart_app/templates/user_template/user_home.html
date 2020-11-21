@@ -85,17 +85,18 @@
         <div class="agileinfo-ads-display col-md-12">
             <div class="wrapper">
                 <!-- first section (nuts) -->
-                <div class="product-sec1">
+                {% for product in products %}
+                {% if product.active == 0 %}
+                <div class="product-sec1 col-md-4">
                     <!-- <h3 class="heading-tittle">Nuts</h3> -->
-                    {% for product in products %}
-                    {% if product.active == 0 %}
-                    <div class="col-md-4" >
+                   
+                    <!-- <div class="col-md-4" > -->
                         <div class="men-pro-item simpleCart_shelfItem">
                             <div class="men-thumb-item" >
                                  <!-- <a href="{% url 'user_view_product' product.id %}" class="link-product-add-cart"></a>
                                 <img src="{{ product.imageURL }}" height="300px" alt=""> -->
                                     <a href="{% url 'user_view_product' product.id %}">
-                                     <img style="text-decoration: none;margin-top: 10px;" height="300px" style="margin-top: 10px;" src="{{product.imageURL}}" alt="">
+                                     <img style="text-decoration: none;margin-top: 10px;" height="300px" width="300px" style="margin-top: 10px;" src="{{product.imageURL}}" alt="">
                                     </a>
 
                                 <div class="men-cart-pro">
@@ -120,13 +121,15 @@
                                 </div> -->
                             </div>
                         </div>
-                    </div>
-                    {% endif %}
-                    {% endfor %}
+                    <!-- </div> -->
+                
+                    
   
                     
                     <div class="clearfix"></div>
                 </div>
+                {% endif %}
+                    {% endfor %}
 
                 <!-- //first section (nuts) -->
                 <!-- second section (nuts special) -->

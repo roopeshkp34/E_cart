@@ -276,7 +276,7 @@ def user_checkout(request):
             "order":order,
             "cartItems":cartItems,
             'order_id':order_id,
-            "shipping":ship
+            "shipping":ship,
 
         }
     

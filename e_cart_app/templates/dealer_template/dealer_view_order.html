@@ -2,203 +2,206 @@
 
 {%block content%}
 
-<section class="content">
-    <div class="container-fluid">
-      <!-- <a class="btn btn-primary" href="/add_product" role="button" style="margin-top: 10px;">+ Add Product</a> <br/>&nbsp; -->
-        <div class="row">
-            <div class="col-12">
-              <div class="card">
-                <div class="card-header">
-                  <!-- <div class="form-group">
-                    {% if messages %}
-                      {% for message in messages %}
-                      {% if message.tags == 'error' %}
-                      <div class="alert alert-danger" style="margin-top:10px;">{{message}}</div>
-                      {% endif %}
-                      {% if message.tags == 'success' %}
-                      <div class="alert alert-success" style="margin-top:10px;">{{message}}</div>
-                      {% endif %}
-                      {% endfor %}
-                    {% endif %}
-                  </div> -->
-                  <h3 class="card-title">Product Deatails</h3>
-                  <div class="card-tools">
-                    <div class="input-group input-group-sm" style="width: 150px;">
-                      <!-- drop down for filter -->
-                     
-                      <!-- Enddrop down for filter -->
-                      <div class="input-group-append">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body table-responsive p-0">
-                  <table class="table table-hover text-nowrap">
-                    <thead>
-                      <tr>
-                        <th>Order Id</th>
-                        <th>Customer Name</th>
-                        <th>Total</th>
-                        <th>Image</th>
-                        <th>Quantity</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    {% for order in orders %}
-                    {% if order.get_cart_total > 0 %}
+<div style="padding-left: 1em;" class="row" >
+    
+  <div class="col-lg-12">
 
-                      <tr>
-                          <td>{{ order.id }}</td>
-                        <td>{{ order.customer }}</td>
-                        <td>{{ order.get_cart_total }}</td>
-                        <!-- <td>{{ product.category }}</td>
-                        <td>{{ product.quantity }}</td> -->
-                        
-                            {% for item in order.orderitem_set.all %}
-                            {% if item.product.product_name %}
-                        <td><img class="row-image" src="{{ item.product.imageURL }}" alt="" style="height: 100px;width: 100px;"></td>
-                        <td>{{ item.quantity }}</td>
-                            {% endif %}
-                            {% endfor %}
-                            {% if order.order_status == 'Pending' %}
-                        <td>
-                        <button type="button" class="actual_status btn btn-info btn-md px-3" >{{order.order_status}}</button>
-                        <button type="button" class="btn btn-light dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {% elif order.order_status == 'Out for delivery' %}
-                        <button type="button" class="actual_status btn btn-warning btn-md">{{order.order_status}}</button>
-                        <button type="button" class="btn btn-light dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {% elif order.order_status == 'Completed' %}
-                        <button type="button" class="actual_status btn btn-success btn-md" >{{order.order_status}}</button>
-                        <!-- <button type="button" class="btn btn-light dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
-                        {%endif%}
-                        <!-- <span class="sr-only">Toggle Dropdown</span>
-                        <div class="dropdown-menu">
-                            {% if order.order_status == 'Pending' %}
-                                
-                                <button data-id="{{order.id}}"  data-status="Out for delivery" class=" change_status dropdown-item" >out for delivery</button>
-                                
-                                <button  data-id="{{order.id}}"  data-status="Completed" class=" change_status dropdown-item" >completed</button>
-                            {%endif%}
-                    
-                            {%if order.order_status == 'Out for delivery' %}
-                                
-                            <button  data-id="{{order.id}}"  data-status="Completed" class=" change_status dropdown-item" >completed</button>
-                                {%endif%}
-                            {%if order.order_status == 'Completed' %}
-                           
-                            {%endif%}
-                        </div> -->
-
-                        <div class="dropdown show">
-                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            </a>
-                          
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                              {% if order.order_status == 'Pending' %}
-                              <a data-id="{{order.id}}"  data-status="Out for delivery" class=" change_status dropdown-item" href="#">out for delivery</a>
-                              <a data-id="{{order.id}}"  data-status="Completed" class=" change_status dropdown-item" href="#">completed</a>
-                              {% elif order.order_status == 'Out for delivery' %}
-                              <a data-id="{{order.id}}"  data-status="Completed" class=" change_status dropdown-item" href="#">completed</a>
-                              {% endif %}
-                            </div>
-                          </div>
-                      </td>
-
-                        
-                      </tr>
-                      {% endif %}
-                    {% endfor %}
-                    </tbody>
-                  </table>
-                </div>
-                <!-- /.card-body -->
-              </div>
-              <!-- /.card -->
-            </div>
-          </div>
-              
-              
-    </div>
-            <!-- /.card -->
-
-           
-    </div>
-  </section>
 
  
-  <script>
+
+      <div style="  padding-left: 3em; margin-left: 1em; " class="box-element" >
+          <div class="cart-row" >
+              <div style="flex:1  " ><strong> Order Id</strong></div>
+              <div style="flex:1  " ><strong> Customer</strong></div>
+              <div style="flex:1" ><strong>Date </strong></div>
+              <div style="flex:1" ><strong>Total </strong></div>
+
+              <div style="flex:1  " ><strong>Order Status</strong></div>
+              
+              
+
+          </div>
 
 
-     
+
+          {% for order in orders %}
+          {% if order.get_cart_total > 0 %}
+          <div class="cart-row" style="border-bottom: 0px; border-top: 1px solid ; padding-top: 10px;" >
+              <div style="flex:1" >{{order.id}}</div>
+              <div style="flex:1" >{{order.customer}}</div>
+          
+              <div style="flex:1  " >{{order.date_ordered}}</div>
+              <div style="flex:1  " >${{order.get_cart_total}}</div>
+
+           
+
+              
+              <div style="flex:1" >
+
+              <div class="">
+                  {% if order.order_status == 'Pending' %}
+                  <button type="button" class="actual_status btn btn-info btn-md" class="actual_status btn btn-info btn-md">{{order.order_status}}</button>
+                  <button type="button" class="btn btn-light dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {% elif order.order_status == 'Out for delivery' %}
+                  <button type="button" class="actual_status btn btn-warning btn-md" class="actual_status btn btn-info btn-md">{{order.order_status}}</button>
+                  <button type="button" class="btn btn-light dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {% elif order.order_status == 'Completed' %}
+                  <button type="button" class="actual_status btn btn-success btn-md" class="actual_status btn btn-info btn-md">{{order.order_status}}</button>
+                  <!-- <button type="button" class="btn btn-light dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
+                  {%endif%}
+                  <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                      <div class="dropdown-menu">
+                          {% if order.order_status == 'Pending' %}
+                              
+                              <button data-id="{{order.id}}"  data-status="Out for delivery" class=" change_status dropdown-item" >out for delivery</button>
+                              
+                              <button  data-id="{{order.id}}"  data-status="Completed" class=" change_status dropdown-item" >completed</button>
+                          {%endif%}
+                  
+                          {%if order.order_status == 'Out for delivery' %}
+                              
+                          <button  data-id="{{order.id}}"  data-status="Completed" class=" change_status dropdown-item" >completed</button>
+                              {%endif%}
+                          {%if order.order_status == 'Completed' %}
+                          <!-- <button  data-id="{{order.id}}"  data-status="Out for delivery" class=" change_status dropdown-item" >out for delivery</button>
+                              
+                          <button  data-id="{{order.id}}"  data-status="Pending" class=" change_status dropdown-item" >pending</button> -->
+                          {%endif%}
+                      </div>
+              </div>
+              
+
+
+              </div>
+              
+              
+             
+
+
+              
+              
+          </div>
+           <div class="cart-row"  >
+              <div style="flex:1" ></div>            
+              <div style="flex:1" >ITEMS</div>               
+              <div style="flex:1" > Quantity</div>
+              <div style="flex:1" ></div>
+              <div style="flex:1" ></div>
+
+
+              
+          
+          </div>
+          {% for item in order.orderitem_set.all %}
+          {%if item.product.product_name%}
+
+          <div class="cart-row" style="border-bottom: 0px;" id="hi" >
+              <div style="flex:.5" ></div>            
+              <div style="flex:2 ; padding-right:20px;" ><img class="row-image" src="{{item.product.imageURL}}" alt="">{{item.product.product_name}}</div>               
+              <div style="flex:1.5; padding-top:13px;" style="padding-top: 10px;" > X {{item.quantity}}</div>
+              <div style="flex:1" ></div>
+              <div style="flex:1" ></div>
+
+
+              
+          
+          </div>
+          {%endif%}
+
+          {% endfor %}
+       
+          {%endif%} 
+          
+
+          {% endfor %}
+          
+       
+
+
+      </div>
+      
+
+      <!-- Alternate table -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- table ends -->
+
+
+
+
+
+
+  </div>
+
+</div>
+<script>
+
+   
 function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      // Does this cookie string begin with the name we want?
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
     }
-    return cookieValue;
- }
- var csrftoken = getCookie('csrftoken');
-
- /*var btn = document.getElementById('order_status1')
- btn.addEventListener('click',function(){
-
-    alert('ok')
-    var top = document.getElementById('actual_status')
-    top.innerHTML = 'changed'
- })*/
- var statusBtns = document.getElementsByClassName('change_status')
-
- for(var i = 0; i < statusBtns.length; i++){
-     statusBtns[i].addEventListener('click', function(){
-     var orderId = this.dataset.id
-     var status = this.dataset.status
-     console.log('orderId:', orderId, 'status :', status)
-     var top = document.getElementsByClassName('actual_status')
-     top[0].innerHTML = status
-    updateUserOrder(orderId, status)
-
-    //  window.location.reload()
-    
-    // $.ajax({
-    //     url: '/update_order/',
-    //     type: 'post',
-    //     data: {
-    //         order_id: orderId,
-    //         order_status:status,
-    //         csrfmiddlewaretoken: csrftoken,
-    //     },
-    // });
-    
-      // $.ajax({
-      //   url:'/update_order/',
-      //   type:'post',
-      //   data: {
-      //     orderId:1,
-      //     csrfmiddlewaretoken:csrftoken
-      //   },
-      //   success: function(re){
-      //     console.log(re);
-      //   },
-      //   error : function(err){
-      //     console.log(err);
-      //   }
-        
-      // })
-
-    })
-
+  }
+  return cookieValue;
 }
-function updateUserOrder(orderId, status){
+var csrftoken = getCookie('csrftoken');
+
+  /*var btn = document.getElementById('order_status1')
+  btn.addEventListener('click',function(){
+
+      alert('ok')
+      var top = document.getElementById('actual_status')
+      top.innerHTML = 'changed'
+  })*/
+  var statusBtns = document.getElementsByClassName('change_status')
+
+  for(var i = 0; i < statusBtns.length; i++){
+      statusBtns[i].addEventListener('click', function(){
+      var orderId = this.dataset.id
+      var status = this.dataset.status
+      console.log('orderId:', orderId, 'status :', status)
+      var top = document.getElementsByClassName('actual_status')
+      top[0].innerHTML = status
+    updateUserOrder(orderId, status)
+    window.location.reload()
+
+
+      
+      // $.ajax({
+      //     url: '/update_order/',
+      //     type: 'post',
+      //     data: {
+      //       order_id: orderId,
+      //       order_status:status,
+      //       csrfmiddlewaretoken: csrftoken
+      //     },
+
+      // });
+
+
+      })
+  }
+  function updateUserOrder(orderId, status){
   console.log("user is loged in sending data")
   var url ='/update_order/'
   fetch(url,{
@@ -218,7 +221,8 @@ function updateUserOrder(orderId, status){
     })
 
 }
-    
-    
-    </script>
+
+
+</script>
+
 {% endblock %}
