@@ -62,8 +62,9 @@
                     </a>
                   </li>
                   <li class="nav-item">
+                    {% url 'manage_offers' as manage_offers %}
                     {% url 'add_offers' as add_offers %}
-                    <a href="{% url 'add_offers' %}" class="nav-link {% if request.path == add_offers %} active {% endif %} ">
+                    <a href="{% url 'manage_offers' %}" class="nav-link {% if request.path == add_offers %} active {% endif %}{% if request.path == manage_offers %} active {% endif %} ">
                       <i class="nav-icon fas fa-home"></i>
                       <p>
                         Offers

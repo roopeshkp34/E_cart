@@ -112,7 +112,9 @@
                                 </h4>
                                 <div class="info-product-price">
                                     <span class="item_price">${{ product.price|floatformat:2 }}</span>
-                                    <del>$280.00</del>
+                                    {% if product.offer_price %}
+                                    <del>${{ product.offer_price }}</del>
+                                    {% endif %}
                                 </div>
                                 <!-- <div class="occasion-cart">
                                  <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out"> -->

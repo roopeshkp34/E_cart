@@ -207,7 +207,38 @@ def update_order(request):
 
 
 def add_offers(request):
-    return render(request,"dealer_template/add_offer.html")
+    if request.method == "POST":
+        offer_name=request.POST.get('offer_name')
+        product=request.POST.get('product')
+        discount_amount=request.POST.get('discount_amount')
+        user=request.user.id
+        dealer=Dealer.objects.get(admin=user)
+        # dealer=request.POST.get('dealer')
+        # print("offername",offer_name,"product",product,"dic",discount_amount)
+        product_obj=Product.objects.get(id=product)
+
+
+        offers=Offer.objects.create(offer_name=offer_name,discount_amount=discount_amount,product=product_obj,dealer=dealer)
+        offers.save()
+        price=product_obj.price
+        product_obj.offer_price=price
+        discount_amounts= int(discount_amount)
+        offer_price=int(price)*(discount_amounts/100)
+        product_obj.price=offer_price
+        product_obj.save()
+        return redirect('manage_offers')
+
+    else:
+        dealer=Dealer.objects.get(admin=request.user.id)
+        products=Product.objects.filter(dealer_id=dealer)
+        context = {
+            "products":products,
+        }
+        return render(request,"dealer_template/add_offer.html",context)
+
+
+def manage_offers(request):
+    return render(request,"dealer_template/manage_offers.html")
 
 
     

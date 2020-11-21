@@ -193,10 +193,12 @@ def user__home(request):
         order ={'get_cart_total':0,'get_cart_items':0, 'shipping':False}
         cartItems=order['get_cart_items']
     products=Product.objects.all()
+    offer=Offer.objects.all()
     context= {
         "items":items,
         "products":products,
         "cartItems":cartItems,
+        "offers":offer,
     }
     return render(request,"user_template/user_home.html",context)
 

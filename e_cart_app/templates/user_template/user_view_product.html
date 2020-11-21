@@ -56,7 +56,9 @@
             </div>
             <p>
                 <span class="item_price">${{ product.price|floatformat:2 }}</span>
-                <del>$1300.00</del>
+                {% if product.offer_price %}
+                <del style="color: black;">${{ product.offer_price }}</del>
+                {% endif %}
                 <label>Free delivery</label>
             </p>
             <div class="single-infoagile">

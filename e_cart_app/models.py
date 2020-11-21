@@ -48,6 +48,7 @@ class Product(models.Model):
     dealer_id=models.ForeignKey(Dealer,on_delete=models.CASCADE)
     product_name = models.CharField(max_length = 200,null = True)
     price = models.FloatField()
+    offer_price = models.FloatField(null=True)
     category=models.CharField(max_length = 200,null = True)
     quantity=models.IntegerField(default=0,null=True,blank=True)
     active=models.IntegerField(default=0,null=True,blank=True)
@@ -78,6 +79,16 @@ class Product_images(models.Model):
         except:
             url = ''
         return url
+
+
+
+class Offer(models.Model):
+    offer_name = models.CharField(max_length= 220, null=True)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE,null=True)
+    dealer = models.ForeignKey(Dealer,on_delete=models.CASCADE,null=True)
+    discount_amount = models.FloatField(null=True)
+    offer_start = models.DateField(auto_now_add=True, null=True)
+    offer_expiry = models.DateField(null=True)
 
 
 

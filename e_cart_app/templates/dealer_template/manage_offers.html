@@ -1,0 +1,87 @@
+{% extends "dealer_template/base.html" %}
+
+{%block content%}
+
+<section class="content">
+    <div class="container-fluid">
+      <a class="btn btn-primary" href="/add_offers" role="button" style="margin-top: 10px;">+ Add Offer</a> <br/>&nbsp;
+        <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <!-- <div class="form-group">
+                    {% if messages %}
+                      {% for message in messages %}
+                      {% if message.tags == 'error' %}
+                      <div class="alert alert-danger" style="margin-top:10px;">{{message}}</div>
+                      {% endif %}
+                      {% if message.tags == 'success' %}
+                      <div class="alert alert-success" style="margin-top:10px;">{{message}}</div>
+                      {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                  </div> -->
+                  <h3 class="card-title">Offer Deatails</h3>
+                  <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+                      <!-- drop down for filter -->
+                     
+                      <!-- Enddrop down for filter -->
+                      <div class="input-group-append">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body table-responsive p-0">
+                  <table class="table table-hover text-nowrap">
+                    <thead>
+                      <tr>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{{ product.product_name }}</td>
+                        <td>{{ product.price }}</td>
+                        <td>{{ product.category }}</td>
+                        <td>{{ product.quantity }}</td>
+
+                        <td><a href="" class="btn btn-success">Edit</a>
+                          <form action="" method="POST" onsubmit="window.ondelete()" style="display: inline;">
+                            {% csrf_token %}
+                          <button type="submit" class="btn btn-danger">Delete</button></td>
+                        </form></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+          </div>
+              
+              
+    </div>
+            <!-- /.card -->
+
+           
+    </div>
+  </section>
+  <!-- /.content -->
+</script>
+<script type="text/Javascript">
+  window.ondelete= function(){
+    var isValid =confirm('Are you sure Do you Want To Delete ?');
+    if (!isValid){
+      event.preventDefault();
+      // alert("It Wont delete");
+    }
+  }
+</script>
+{% endblock %}
