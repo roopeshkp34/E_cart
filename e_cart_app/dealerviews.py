@@ -73,8 +73,11 @@ def manage_product(request):
 
 @user_passes_test(lambda u: u.user_type == '2',login_url='dealer_login')
 def add_product(request):
-    
-    return render(request,"dealer_template/add_product_template.html")
+    categorys = ProductCategory.objects.all()
+    context = {
+        "categorys":categorys,
+    }
+    return render(request,"dealer_template/add_product_template.html",context)
 
 
 
@@ -86,6 +89,7 @@ def add_product_save(request):
         price=request.POST.get('price')
         quantity=request.POST.get('quantity')
         category=request.POST.get('category')
+        category_obj=ProductCategory.objects.get(id=category)
         # image_data =request.POST.get('image64data')
         dealer_id=Dealer.objects.get(admin=request.user.id)
         # value = image_data.strip('data:image/png;base64,')
@@ -97,7 +101,7 @@ def add_product_save(request):
         product_image = request.FILES['image1']
         images = request.FILES.getlist('file[]')
 
-        item = Product(product_name = product_name,dealer_id=dealer_id,price = price, quantity = quantity,category=category, image = product_image)
+        item = Product(product_name = product_name,dealer_id=dealer_id,price = price, quantity = quantity,category=category_obj, image = product_image)
         item.save()
 
         for image in images:
@@ -217,15 +221,28 @@ def add_offers(request):
         # print("offername",offer_name,"product",product,"dic",discount_amount)
         product_obj=Product.objects.get(id=product)
 
+        ofer_exist=Offer.objects.filter(product=product_obj,dealer=dealer).exists()
+        if ofer_exist:
+            price=product_obj.offer_price
+            discount_amounts= int(discount_amount)
+            offers_price=int(price)*(discount_amounts/100)
 
-        offers=Offer.objects.create(offer_name=offer_name,discount_amount=discount_amount,product=product_obj,dealer=dealer)
-        offers.save()
-        price=product_obj.price
-        product_obj.offer_price=price
-        discount_amounts= int(discount_amount)
-        offer_price=int(price)*(discount_amounts/100)
-        product_obj.price=offer_price
-        product_obj.save()
+            offer = Offer.objects.get(product=product_obj,dealer=dealer)
+            offer.discount_amount=discount_amount
+            offer.offer_name=offer_name
+            offer.save()
+            product_obj.price=offers_price
+            product_obj.save()
+            
+        else:
+            offers=Offer.objects.create(offer_name=offer_name,discount_amount=discount_amount,product=product_obj,dealer=dealer)
+            # offers.save()
+            price=product_obj.price
+            product_obj.offer_price=price
+            discount_amounts= int(discount_amount)
+            offer_price=int(price)*(discount_amounts/100)
+            product_obj.price=offer_price
+            # product_obj.save()
         return redirect('manage_offers')
 
     else:
@@ -248,7 +265,48 @@ def manage_offers(request):
 
 
 def add_category_offers(request):
-    return render(request,"dealer_template/add_category_offers.html")
+    categorys = ProductCategory.objects.all()
+    context = {
+        "categorys":categorys
+    }
+    return render(request,"dealer_template/add_category_offers.html",context)
 
 
-    
+def add_category_offers_save(request):
+    offer_name=request.POST.get('offer_name')
+    categorys=request.POST.get('category')
+    discount_amount=request.POST.get('discount_amount')
+
+    dealer=Dealer.objects.get(admin=request.user.id)
+    category_obj=ProductCategory.objects.get(id=categorys)
+    products=Product.objects.filter(dealer_id=dealer,category=category_obj)
+
+    for product in products:
+        if product.offer_price == None:
+            price=product.price
+            discount_amounts= int(discount_amount)
+            offers_price=int(price)*(discount_amounts/100)
+            # print(offer_price)
+        else:
+            price=product.offer_price
+            discount_amounts= int(discount_amount)
+            offers_price=int(price)*(discount_amounts/100)
+        
+
+        ofer_exist=Offer.objects.filter(product=product,dealer=dealer).exists()
+        if ofer_exist:
+            offer = Offer.objects.get(product=product,dealer=dealer)
+            # discount_amounts= int(discount_amount)
+            # offers_price=int(product.offer_price)*(discount_amounts/100)
+            offer.discount_amount=discount_amount
+            offer.offer_name=offer_name
+            offer.save()
+            product.price=offers_price
+            product.save()
+        else:
+            offer=Offer(offer_name=offer_name,discount_amount=discount_amount,product=product,dealer=dealer)
+            offer.save()
+            product.offer_price=price
+            product.price=offers_price
+            product.save()
+    return redirect("add_category_offers")

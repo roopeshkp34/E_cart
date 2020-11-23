@@ -44,12 +44,22 @@ class Customer(models.Model):
     def __str__(self):
         return self.name
 
+
+
+
+class ProductCategory(models.Model):
+    category_name=models.CharField(max_length = 200,null = True)
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now_add=True)
+
+
+
 class Product(models.Model):
     dealer_id=models.ForeignKey(Dealer,on_delete=models.CASCADE)
     product_name = models.CharField(max_length = 200,null = True)
     price = models.FloatField()
     offer_price = models.FloatField(null=True)
-    category=models.CharField(max_length = 200,null = True)
+    category=models.ForeignKey(ProductCategory,on_delete=models.CASCADE,null = True)
     quantity=models.IntegerField(default=0,null=True,blank=True)
     active=models.IntegerField(default=0,null=True,blank=True)
     digital = models.BooleanField(default=False, null=True, blank=True)
@@ -89,6 +99,8 @@ class Offer(models.Model):
     discount_amount = models.FloatField(null=True)
     offer_start = models.DateField(auto_now_add=True, null=True)
     offer_expiry = models.DateField(null=True)
+
+
 
 
 

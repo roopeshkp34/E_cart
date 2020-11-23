@@ -280,3 +280,22 @@ def manage_users(request):
         "customers":customer,
     }
     return render(request,"admin_template/manage_user_template.html",context)
+
+
+
+def add_category(request):
+    if request.method == 'POST':
+        category_name=request.POST.get("category")
+        ProductCategory.objects.create(category_name=category_name)
+        return redirect("manage_category")
+    else:
+        return render(request,"admin_template/add_category.html")
+
+
+
+def manage_category(request):
+    category= ProductCategory.objects.all()
+    context = {
+        "categorys":category,
+    }
+    return render(request,"admin_template/manage_category.html",context)

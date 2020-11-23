@@ -46,6 +46,8 @@ urlpatterns = [
     path('admin_deactive/<str:product_id>',adminviews.admin_deactive,name="admin_deactive"),
     path('admin_active/<str:product_id>',adminviews.admin_active,name="admin_active"),
     path('admin_order_view',adminviews.admin_order_view,name='admin_order_view'),
+    path('add_category',adminviews.add_category,name="add_category"),
+    path('manage_category',adminviews.manage_category,name="manage_category"),
 
 
 
@@ -76,6 +78,7 @@ urlpatterns = [
     path('add_offers',dealerviews.add_offers,name='add_offers'),
     path('manage_offers',dealerviews.manage_offers,name='manage_offers'),
     path('add_category_offers',dealerviews.add_category_offers,name='add_category_offers'),
+    path('add_category_offers_save',dealerviews.add_category_offers_save,name='add_category_offers_save'),
 
 
 

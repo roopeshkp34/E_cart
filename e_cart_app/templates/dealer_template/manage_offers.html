@@ -42,6 +42,7 @@
                         <th>Offer Name</th>
                         <th>Product</th>
                         <th>Discount Amount(%)</th>
+                        <th>Current Price</th>
                         <th>Start date</th>
                         <!-- <th>Action</th> -->
                       </tr>
@@ -52,6 +53,7 @@
                         <td>{{ offer.offer_name }}</td>
                         <td>{{ offer.product }}</td>
                         <td>{{ offer.discount_amount }}</td>
+                        <th>{{ offer.product.price }}</th>
                         <td>{{ offer.offer_start }}</td>
 
                         <!-- <td><a href="" class="btn btn-success">Edit</a>

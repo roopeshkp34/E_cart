@@ -80,13 +80,9 @@
                   <div class="form-group">
                     <label>Category</label>
                     <select id="category" name="category" class="input-xlarge">
-                        <option>Mobiles</option>
-                        <option>Dress</option>
-                        <option>Electronics</option>
-                        <option>Home</option>
-                        <option>Toys</option>
-                        <option>Sports</option>
-
+                      {% for category in categorys %}
+                        <option value="{{ category.id }}">{{ category.category_name }}</option>
+                      {% endfor %}
                     </select>
                   </div>
                   <div class="form-group">
