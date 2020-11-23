@@ -258,7 +258,7 @@ def user_checkout(request):
         items=[]
         order ={'get_cart_total':0,'get_cart_items':0,'shipping':False}
         cartItems=order['get_cart_items']
-    client  = razorpay.Client(auth=("rzp_test_60LoLFkXcaDMVN", "sAlIyuylw1Ox8h7ryZVy7Y1c"))
+    client  = razorpay.Client(auth=("rzp_test_Lt91WAzqz5raTU", "D6r6PFQ8Ck9AgCBB66qgHQ0V"))
 
     if request.user.is_authenticated:
         total = int(order.get_cart_total*100)

@@ -238,7 +238,17 @@ def add_offers(request):
 
 
 def manage_offers(request):
-    return render(request,"dealer_template/manage_offers.html")
+    user=request.user.id
+    dealer=Dealer.objects.get(admin=user)
+    offer=Offer.objects.filter(dealer=dealer)
+    context = {
+        "offers":offer,
+    }
+    return render(request,"dealer_template/manage_offers.html",context)
+
+
+def add_category_offers(request):
+    return render(request,"dealer_template/add_category_offers.html")
 
 
     

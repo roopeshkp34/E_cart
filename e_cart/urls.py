@@ -75,6 +75,7 @@ urlpatterns = [
     path('update_order/',dealerviews.update_order,name='update_order'),
     path('add_offers',dealerviews.add_offers,name='add_offers'),
     path('manage_offers',dealerviews.manage_offers,name='manage_offers'),
+    path('add_category_offers',dealerviews.add_category_offers,name='add_category_offers'),
 
 
 

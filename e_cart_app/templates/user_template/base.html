@@ -56,7 +56,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</script>
 	<!-- checking user -->
 
-
+<!-- flexslider -->
+	<link rel="stylesheet" href="{% static 'css/flexslider.css' %}" type="text/css" media="screen" />
 
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
 
@@ -356,6 +357,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<!-- //popup modal (for signin & signup)-->
 
 	<!-- cart-js -->
+	
 	<script src="{% static 'js/minicart.js' %}"></script>
 	<script>
 		paypalm.minicartk.render(); //use only unique class names other than paypalm.minicartk.Also Replace same class name in css and minicart.min.js
@@ -398,6 +400,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		}); //]]>
 	</script>
 	<!-- //price range (top products) -->
+	<!-- FlexSlider -->
+	<script src="{% static 'js/jquery.flexslider.js' %}"></script>
+	<script>
+		// Can also be used with $(document).ready()
+		$(window).load(function () {
+			$('.flexslider').flexslider({
+				animation: "slide",
+				controlNav: "thumbnails"
+			});
+		});
+	</script>
+	<!-- //FlexSlider-->
 
 	<!-- flexisel (for special offers) -->
 	<script src="{% static 'js/jquery.flexisel.js' %}"></script>
@@ -428,6 +442,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 		});
 	</script>
+	
 	<!-- //flexisel (for special offers) -->
 
 	<!-- password-script -->

@@ -4,7 +4,9 @@
 
 <section class="content">
     <div class="container-fluid">
-      <a class="btn btn-primary" href="/add_offers" role="button" style="margin-top: 10px;">+ Add Offer</a> <br/>&nbsp;
+      <a class="btn btn-info" href="/add_offers" role="button" style="margin-top: 10px;">+ Add Product Offer</a> &nbsp;
+      <a class="btn btn-dark" href="/add_category_offers" role="button" style="margin-top: 10px;">+ Add Category Offer</a> <br/>&nbsp;
+
         <div class="row">
             <div class="col-12">
               <div class="card">
@@ -37,26 +39,28 @@
                   <table class="table table-hover text-nowrap">
                     <thead>
                       <tr>
-                        <th>Product Name</th>
-                        <th>Price</th>
-                        <th>Category</th>
-                        <th>Quantity</th>
-                        <th>Action</th>
+                        <th>Offer Name</th>
+                        <th>Product</th>
+                        <th>Discount Amount(%)</th>
+                        <th>Start date</th>
+                        <!-- <th>Action</th> -->
                       </tr>
                     </thead>
                     <tbody>
+                      {% for offer in offers %}
                       <tr>
-                        <td>{{ product.product_name }}</td>
-                        <td>{{ product.price }}</td>
-                        <td>{{ product.category }}</td>
-                        <td>{{ product.quantity }}</td>
+                        <td>{{ offer.offer_name }}</td>
+                        <td>{{ offer.product }}</td>
+                        <td>{{ offer.discount_amount }}</td>
+                        <td>{{ offer.offer_start }}</td>
 
-                        <td><a href="" class="btn btn-success">Edit</a>
+                        <!-- <td><a href="" class="btn btn-success">Edit</a>
                           <form action="" method="POST" onsubmit="window.ondelete()" style="display: inline;">
                             {% csrf_token %}
                           <button type="submit" class="btn btn-danger">Delete</button></td>
-                        </form></td>
+                        </form></td> -->
                       </tr>
+                      {% endfor %}
                     </tbody>
                   </table>
                 </div>

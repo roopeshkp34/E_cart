@@ -23,30 +23,20 @@
                             <div class="thumb-image">
                                 <img src="{{ product.imageURL }}" data-imagezoom="true" class="img-responsive" alt=""> </div>
                         </li>
-                        <li data-thumb="images/si2.jpg">
+                        {% for images in product_images%}
+                        <li data-thumb="{{ images.imageURL }}">
                             <div class="thumb-image">
-                                <img src="{% static 'images/si2.jpg' %}" data-imagezoom="true" class="img-responsive" alt=""> </div>
+                                <img src="{{ images.imageURL }}" data-imagezoom="true" class="img-responsive" alt=""> </div>
                         </li>
-                        <li data-thumb="images/si3.jpg">
+                        {% endfor %}
+                        <!-- <li data-thumb="images/si3.jpg">
                             <div class="thumb-image">
-                                <img src="{% static 'images/si3.jpg' %}" data-imagezoom="true" class="img-responsive" alt=""> </div>
-                        </li>
+                                <img src="/static/images/si3.jpg" data-imagezoom="true" class="img-responsive" alt=""> </div>
+                        </li> -->
                     </ul>
                     <div class="clearfix"></div>
                 </div>
             </div>
-            <!-- <div id="sync1" class="owl-carousel owl-theme">
-                 <div class="item">
-                     <img src="{{ product.imageURL }}" data-imagezoom="true" class="img-responsive" alt="">
-                 </div>
-             </div>
-             <div id="sync2" class="owl-carousel owl-theme">
-                 <div class="item">
-                     <img src="{% static 'images/si2.jpg' %}" data-imagezoom="true" class="img-responsive" alt="">
-                 </div>
-                 
-             
-             </div> -->
         </div>
         <div class="col-md-7 single-right-left simpleCart_shelfItem">
             <h3>{{ product.product_name }}</h3>
@@ -66,7 +56,9 @@
             </div>
             <p>
                 <span class="item_price">${{ product.price|floatformat:2 }}</span>
-                <del>$1300.00</del>
+                {% if product.offer_price %}
+                <del style="color: black;">${{ product.offer_price }}</del>
+                {% endif %}
                 <label>Free delivery</label>
             </p>
             <div class="single-infoagile">
