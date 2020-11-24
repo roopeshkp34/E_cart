@@ -225,7 +225,7 @@ def add_offers(request):
         if ofer_exist:
             price=product_obj.offer_price
             discount_amounts= int(discount_amount)
-            offers_price=int(price)*(discount_amounts/100)
+            offers_price=price-(int(price)*(discount_amounts/100))
 
             offer = Offer.objects.get(product=product_obj,dealer=dealer)
             offer.discount_amount=discount_amount
@@ -240,7 +240,7 @@ def add_offers(request):
             price=product_obj.price
             product_obj.offer_price=price
             discount_amounts= int(discount_amount)
-            offer_price=int(price)*(discount_amounts/100)
+            offer_price=price-(int(price)*(discount_amounts/100))
             product_obj.price=offer_price
             # product_obj.save()
         return redirect('manage_offers')
@@ -285,12 +285,12 @@ def add_category_offers_save(request):
         if product.offer_price == None:
             price=product.price
             discount_amounts= int(discount_amount)
-            offers_price=int(price)*(discount_amounts/100)
+            offers_price=price-(int(price)*(discount_amounts/100))
             # print(offer_price)
         else:
             price=product.offer_price
             discount_amounts= int(discount_amount)
-            offers_price=int(price)*(discount_amounts/100)
+            offers_price=price-(int(price)*(discount_amounts/100))
         
 
         ofer_exist=Offer.objects.filter(product=product,dealer=dealer).exists()
