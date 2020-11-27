@@ -12,6 +12,8 @@ from django.core.files.storage import FileSystemStorage
 from django.core.files import File
 from django.core.files.base import ContentFile
 import json
+import datetime
+from datetime import *
 
 
 def dealer_login(request):
@@ -48,7 +50,52 @@ def dealer_dologin(request):
 
 @user_passes_test(lambda u: u.user_type == '2',login_url='dealer_login')
 def dealer_home(request):
-    return render(request,"dealer_template/dealer_home.html")
+    user=request.user.id
+    dealer=Dealer.objects.get(admin=user)
+    products=Product.objects.filter(dealer_id=dealer).count()
+    order_count=Order.objects.filter(dealer_id=dealer).count()
+
+
+    # total price counting
+    orders=Order.objects.filter(dealer_id=dealer)
+    total = 0
+    for order in orders:
+        try:
+            order_total=order.get_cart_total
+        except:
+            order_total=0
+        total=total+order_total
+
+    # total count of customers
+    customer_count=Customer.objects.all().count()
+    
+
+    # chart
+    year = datetime.now().year
+    month = datetime.now().month
+    chart_order = Order.objects.filter(date_ordered__year = year,date_ordered__month = month,dealer_id=dealer)
+    
+
+    chart_values = []
+    
+    for i in range(0,6):
+        chart_order = Order.objects.filter(date_ordered__year = year,date_ordered__month = month-5+i)
+        order_total = 0
+        for items in chart_order:
+            try:
+                order_total += round(items.get_cart_total,2)
+            except:
+                order_total += 0
+        chart_values.append(round(order_total,2)) 
+
+    context = {
+        "products":products,
+        "order_count":order_count,
+        "total":total,
+        "customer_count":customer_count,
+        "chart_values":chart_values,
+    }
+    return render(request,"dealer_template/dealer_home.html",context)
 
 
 def dealer_logout(request):

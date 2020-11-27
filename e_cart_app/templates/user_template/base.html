@@ -110,10 +110,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<span class="fa fa-unlock-alt" aria-hidden="true"></span> Sign In </a>
 						{% endif %}
 					</li>
-					<li>
+					<!-- <li>
 						<a href="{% url 'user_view_orders' %}"  >
 							<span class="fa fa-briefcase" aria-hidden="true"></span> Orders </a>
-					</li>
+					</li> -->
+					
+
 					
 					<li>
 						<!-- <div class="top_nav_right"> -->
@@ -121,7 +123,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<form action="{% url 'user_cart' %}" method="post" >
 									{% csrf_token %}
 									<button  type="submit" name="submit" value="">
-										<p id="cart-total">{{cartItems}}</p>
+										<p id="cart-total">{{ cartItems }}</p>
 
 										<img  id="cart-icon" src="{% static 'images/cart.png' %}">
 
@@ -133,7 +135,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<!-- </div> -->
 						<!-- </div> -->
 					</li>
+					
+					<div class="col-md-4 logo_agile">
+						<!-- <h1>
+							<a href="#">
+								<span>E</span>cart  
+								<img src="{% static 'images/logo2.png' %}" alt=" ">
+							</a>
+						</h1> -->
+					</div>
 				</ul>
+				<!-- header-bot-->
+			
+			<!-- header-bot -->
 				<!-- //header lists -->
 				<!-- search -->
 				<!-- <div class="agileits_search">
@@ -199,12 +213,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<li class="">
 									<a class="nav-stylehead" href="#">Contact</a>
 								</li>
-								<li>
-									{% if user.is_authenticated %}
-									<a style="font-style: italic;color: blue;font-weight: bold;">Hi,{{ user.username }}</a>
-									{% endif %}
-								</li>
-								
+								{% if user.is_authenticated %}
+					<li>
+						<div style="margin-top: 10px;" class="dropdown">
+							<button class="btn btn-ligh dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<a style="font-style: italic;color: blue;font-weight: bold;">Hi,{{ user.username }}</a>
+							</button>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							  <a class="dropdown-item" style="font-style: italic;padding-left: 10px;" href="{% url 'user_view_profile' %}"><span class="fa fa-user-circle-o" aria-hidden="true"></span>Profile</a><br>
+							  <a class="dropdown-item" style="font-style: italic;padding-left: 10px;" href="{% url 'user_view_orders' %}"><span class="fa fa-briefcase" aria-hidden="true"></span>Orders</a><br>
+							  <a class="dropdown-item" style="font-style: italic;padding-left: 10px;" href="{% url 'user_logout' %}"><span class="fa fa-unlock-alt" aria-hidden="true"></span>Logout</a><br>
+
+							</div>
+						  </div>
+					</li>
+					{% endif %}
 							</ul>
 						</div>
 					</div>
@@ -249,16 +272,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<a href="{% provider_login_url "github" %}" class="github btn">
 							  <i class="fa fa-github fa-fw"></i> Login with Github
 							</a>
-							<a href="{% provider_login_url 'google'  %}" class="google btn">
+							<a href="{% provider_login_url "google" %}" class="google btn">
 							  <i class="fa fa-google fa-fw"></i> Login with Google+
 							</a>
 						  </div>
-						<!-- <p>Join with Your facebook <a href="{% provider_login_url "facebook" method="oauth2" %}">Login with Fb</a></p>
-						<p>Join with Your Google Account<a href="{% provider_login_url "google" %}">Login with Google</a></p>
-						<p>Join with Your Github Account<a href="{% provider_login_url "github" %}">Login with Github</a></p> -->
-						<!-- <p>Join with Your Linkedin Account<a href="{% provider_login_url "linkedin_oauth2" %}">Login with Linkedin</a></p> -->
-
-
+			
 						
 
 						<div class="clearfix"></div>
@@ -302,6 +320,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<div class="styled-input">
 								<input type="text" placeholder="Enter the Mobile number" name="mobile_number"  required="">
 							</div>
+							<div class="styled-input">
+								<input type="text" placeholder="Enter the Refferel Code" name="refferel_code"  >
+							</div>
 							<input type="submit" value="Sign Up">
 						</form>
 						<p>
@@ -315,8 +336,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</div>
 	<!-- //Modal2 -->
     <!-- top-header -->
-    {%block content%}
-     {%endblock%}
+    {% block content %}
+     {% endblock %}
 	
 <!-- <div class="copy-right">
     <div class="container">

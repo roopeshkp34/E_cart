@@ -47,7 +47,27 @@ def admin_dologin(request):
 
 @user_passes_test(lambda u: u.is_superuser,login_url='admin_login')
 def admin_home(request):
-    return render(request,'admin_template/admin_home.html')
+    product_count = Product.objects.all().count()
+    order_count=Order.objects.all().count()
+    dealer_count = Dealer.objects.all().count()
+
+    # total price counting
+    orders=Order.objects.all()
+    total = 0
+    for order in orders:
+        try:
+            order_total=order.get_cart_total
+        except:
+            order_total=0
+        total=total+order_total
+
+    context = {
+        "product_count":product_count,
+        "order_count":order_count,
+        "total":total,
+        "dealer_count":dealer_count,
+    }
+    return render(request,'admin_template/admin_home.html',context)
 
 
  
@@ -261,7 +281,7 @@ def admin_active(request,product_id):
 @user_passes_test(lambda u: u.is_superuser,login_url='admin_login')
 def admin_order_view(request):
     orders = Order.objects.all()
-    # print(orders[0].customer)
+    # print(orders[0].customer
     context = {
         "orders":orders,
     }

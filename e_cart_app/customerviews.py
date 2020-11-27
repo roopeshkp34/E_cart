@@ -9,6 +9,8 @@ from django.contrib import messages
 import requests
 import razorpay
 from django.views.generic import View
+import random
+import string
 
 
 
@@ -149,10 +151,21 @@ def signup(request):
         username= request.POST.get('username')
         password= request.POST.get('password')
         mobile_number= request.POST.get('mobile_number')
+        reff_code = request.POST.get('refferel_code')
 
-        user = CustomUser.objects.create_user(username = username, password = password, email = email,first_name=password,last_name=mobile_number,user_type=3)
-        # user.customer.mobile_number=mobile_number
-        user.save()
+        letter = string.ascii_letters
+        result = ''.join(random.choice(letter) for i in range(8))
+        if reff_code == "":
+            user = CustomUser.objects.create_user(username = username, password = password, email = email,first_name=password,last_name=mobile_number,user_type=3)
+            # user.customer.mobile_number=mobile_number
+            user.save()
+        else:
+            if CustomUser.objects.filter(refferal_code=reff_code).exists():
+                cust = CustomUser.objects.get(refferal_code=reff_code)
+                user = CustomUser.objects.create_user(username = username, password = password, email = email,first_name=password,last_name=mobile_number,refferal_code=result,reffered_user=cust.id,user_type=3)
+                # user.customer.mobile_number=mobile_number
+                user.save()
+                # customer, created = Customer.objects.get_or_create(user = user, name = username, email = email,refferal_code=result,reffered_user=cust.user)
         return redirect("/")
 
     else:
@@ -179,10 +192,17 @@ def user__home(request):
         login_user = request.user
         login_name = request.user.username
         login_email = request.user.email
-        user, created = Customer.objects.get_or_create(user = login_user, name = login_name, email = login_email)
+        letter = string.ascii_letters
+        result = ''.join(random.choice(letter) for i in range(8))
+        users = Customer.objects.filter(user = login_user, name = login_name, email = login_email)
         # print(login_user)
         # print(login_name)
         # print(login_email)
+        if login_user.refferal_code:
+            pass
+        else:
+            login_user.refferal_code = result
+            login_user.save()
         customer=request.user.customer
         # print(customer)
         order, created = Order.objects.get_or_create(customer=customer,complete=False)
@@ -248,11 +268,20 @@ def user_cart(request):
 def user_checkout(request):
     if request.user.is_authenticated:
         customer=request.user.customer
+        user=request.user
         order, created = Order.objects.get_or_create(customer=customer,complete=False)
         items=order.orderitem_set.all()
         cartItems=order.get_cart_items
         print(items)
         ship = ShippingAdress.objects.filter(customer=customer).distinct()
+
+        if user.reffered_user and Order.objects.filter(customer=customer,complete=True).count()<1:
+            ch = order.get_cart_total
+            changes = (order.get_cart_total)*(90/100)
+            change = round(changes)
+
+        else:
+            change = 0
 
     else:
         items=[]
@@ -261,10 +290,15 @@ def user_checkout(request):
     client  = razorpay.Client(auth=("rzp_test_Lt91WAzqz5raTU", "D6r6PFQ8Ck9AgCBB66qgHQ0V"))
 
     if request.user.is_authenticated:
-        total = int(order.get_cart_total*100)
+        if user.reffered_user and Order.objects.filter(customer=customer,complete=True).count()<1:
+            ch = order.get_cart_total
+            changes = (order.get_cart_total)*(90/100)
+            change = round(changes)
+        else:
+            total = int(order.get_cart_total*100)
     else:
         total = int(order['get_cart_total']*100)
-    print(total)
+    # print(total)
     order_amount = total
     order_currency = 'USD'
     order_receipt = 'order_rcptid_11'
@@ -282,6 +316,7 @@ def user_checkout(request):
             "cartItems":cartItems,
             'order_id':order_id,
             "shipping":ship,
+            "change":change,
 
         }
     
@@ -381,7 +416,7 @@ def processOrder(request):
 def user_view_orders(request):
     try:
         customer=request.user.customer
-        print(customer)
+        # print(customer)
         order=Order.objects.filter(customer=customer,complete=True)
         items =[]
         for i in order:
@@ -408,3 +443,28 @@ def user_view_orders(request):
 
     }
     return render(request,"user_template/user_view_orders.html",context)
+
+
+
+
+def user_view_profile(request):
+    user_id=request.user.id
+    users=Customer.objects.get(user=user_id)
+    # print(users.name)
+
+    if request.user.is_authenticated:
+        admin=request.user.customer
+        order, created = Order.objects.get_or_create(customer=admin,complete=False)
+        items=order.orderitem_set.all()
+        cartItems=order.get_cart_items
+    else:
+        items=[]
+        order ={'get_cart_total':0,'get_cart_items':0,'shipping':False}
+        cartItems=order['get_cart_items']
+    context = {
+        "items":items,
+        "order":order,
+        "cartItems":cartItems,
+        "users":users,
+    }
+    return render(request,"user_template/view_profile.html",context)

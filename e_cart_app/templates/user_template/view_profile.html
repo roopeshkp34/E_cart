@@ -1,0 +1,29 @@
+{% extends "user_template/base.html" %}
+{% load static %}
+{% block content %}
+<!-- <link rel="stylesheet" href="{% static 'css/add.css' %}" -->
+
+
+<div class="row">
+    <div class="col-md-3" id="wrapper_1">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Profile</h3>
+            </div>
+            <form role="form" action="" >
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" class="form-control" name="username" value="{{ users.name }}" required="" disabled="disabled">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-9" id="wrapper_2">
+        <h1>koo</h1>
+    </div>
+</div>
+
+
+{% endblock %}

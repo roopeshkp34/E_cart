@@ -76,8 +76,12 @@
             {% endfor %}
 
             <h5>Items: {{order.get_cart_items}}</h5>
+            {% if change > 0 %}
+            <h5 style="padding-top: 10px;color: rgb(15, 15, 17);" id="entry-title">10% referral Offer</h5>
+            <h5 style="padding-top: 10px;color: blue;" id="entry-title">Discount: ${{ change }}</h5>
+            {% else %}
             <h5 style="padding-top: 10px;color: blue;">Total: ${{order.get_cart_total|floatformat:2}}</h5>
-
+            {% endif %}
 
         </div>
 
@@ -151,7 +155,15 @@
 <script src="https://www.paypal.com/sdk/js?client-id=AVyZltpqzUgb0ZPvZeWbVEXPd1jcveuX4VBGIWhI2czp-gJi4S4FLgxDyY1kmtCFhqE5PkGWHdb0WUoS&currency=USD"></script>
 
 <script>
-    var total = '{{ order.get_cart_total}}'
+    var change = document.querySelector("#entry-title")
+	var payment_paypal='paypal'
+	if(change){
+		change.textContent > 0
+        totalss = ('{{ order.get_cart_total}}')*(90/100)
+    }
+    else{
+        totalss = '{{ order.get_cart_total}}'
+    }
 
     // Render the PayPal button into #paypal-button-container
     paypal.Buttons({
@@ -166,7 +178,7 @@
             return actions.order.create({
                 purchase_units: [{
                     amount: {
-                        value: parseFloat(total).toFixed(2)
+                        value: parseFloat(totalss).toFixed(2)
                     }
                 }]
             });
