@@ -11,6 +11,8 @@ from PIL import Image
 from django.core.files.storage import FileSystemStorage
 from django.core.files import File
 from django.core.files.base import ContentFile
+import datetime
+from datetime import *
 
 
 
@@ -61,11 +63,31 @@ def admin_home(request):
             order_total=0
         total=total+order_total
 
+        # chart
+    year = datetime.now().year
+    month = datetime.now().month
+    chart_order = Order.objects.filter(date_ordered__year = year,date_ordered__month = month)
+    
+
+    chart_values = []
+    
+    for i in range(0,6):
+        chart_order = Order.objects.filter(date_ordered__year = year,date_ordered__month = month-5+i)
+        order_total = 0
+        for items in chart_order:
+            try:
+                order_total += round(items.get_cart_total,2)
+            except:
+                order_total += 0
+        chart_values.append(round(order_total,2)) 
+
+
     context = {
         "product_count":product_count,
         "order_count":order_count,
         "total":total,
         "dealer_count":dealer_count,
+        "chart_values":chart_values,
     }
     return render(request,'admin_template/admin_home.html',context)
 
@@ -295,13 +317,28 @@ def admin_order_view(request):
 
 @user_passes_test(lambda u: u.is_superuser,login_url='admin_login')
 def manage_users(request):
-    customer=CustomUser.objects.filter(user_type=3)
+    customer=Customer.objects.all()
     context = {
         "customers":customer,
     }
     return render(request,"admin_template/manage_user_template.html",context)
 
 
+@user_passes_test(lambda u: u.is_superuser,login_url='admin_login')
+def unblock_user(request,user_id):
+    users = CustomUser.objects.get(id=user_id)
+    users.is_staff = 0
+    users.save()
+    return redirect("manage_users")
+
+
+
+@user_passes_test(lambda u: u.is_superuser,login_url='admin_login')
+def block_user(request,user_id):
+    users = CustomUser.objects.get(id=user_id)
+    users.is_staff = 1
+    users.save()
+    return redirect("manage_users")
 
 def add_category(request):
     if request.method == 'POST':

@@ -8,7 +8,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     {% if messages %}
                       {% for message in messages %}
                       {% if message.tags == 'error' %}
@@ -19,7 +19,7 @@
                       {% endif %}
                       {% endfor %}
                     {% endif %}
-                  </div>
+                  </div> -->
                   <h3 class="card-title">Customer Deatails</h3>
                   <div class="card-tools">
                     <div class="input-group input-group-sm" style="width: 150px;">
@@ -39,18 +39,25 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Mobile</th>
+                        <!-- <th>Mobile</th> -->
+                        <th>Block</th>
                       </tr>
                     </thead>
                     <tbody>
                     {% for customer in customers %}
                       <tr>
                         <td>{{ customer.id }}</td>
-                        <td>{{ customer.username }}  </td>
+                        <td>{{ customer.name }}  </td>
                         <td>{{ customer.email }}</td>
-                        <td>{{ customer.last_name }}</td>
-                        <td>{{ customer.address }}</td>
-
+                        <!-- <td>{{ customer.user.last_name }}</td>
+                        <td>{{ customer.address }}</td> -->
+                        <td>
+                          {% if customer.user.is_staff == 1 %}
+                          <a href="{% url 'unblock_user' customer.user.id %}" class="btn btn-success">Unblock</a>
+                          {% else %}
+                          <a href="{% url 'block_user' customer.user.id %}" class="btn btn-danger">Block</a>
+                          {% endif %}
+                      </td>
                         
                       </tr>
                     {% endfor %}
@@ -70,5 +77,17 @@
            
     </div>
   </section>
+
+
+</script>
+<script type="text/Javascript">
+  window.ondelete= function(){
+    var isValid =confirm('Are you sure Do you Want To Delete ?');
+    if (!isValid){
+      event.preventDefault();
+      // alert("It Wont delete");
+    }
+  }
+</script>
 
 {% endblock %}
