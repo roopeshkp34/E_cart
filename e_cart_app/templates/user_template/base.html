@@ -75,6 +75,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </head>
 
 <body>
+	{% for message in messages %}
+	<div class="alert alert-success">
+	<a class="close" href="#" data-dismiss="alert">×</a>
+		{{ message }}
+	</div>
+	{% endfor %}
 	<div class="header-bot">
 		<div class="header-bot_inner_wthreeinfo_header_mid">
 			<!-- header-bot-->

@@ -48,6 +48,9 @@ urlpatterns = [
     path('admin_order_view',adminviews.admin_order_view,name='admin_order_view'),
     path('add_category',adminviews.add_category,name="add_category"),
     path('manage_category',adminviews.manage_category,name="manage_category"),
+    path('block_user/<str:user_id>',adminviews.block_user,name="block_user"),
+    path('unblock_user/<str:user_id>',adminviews.unblock_user,name="unblock_user"),
+
 
 
 

@@ -123,12 +123,16 @@ def user_login(request):
             user=auth.authenticate(username=username,password=password)
             print(user)
             if user is not None:
-                login(request,user)
+                if user.is_staff == 0:
+                    login(request,user)
                 # return HttpResponse("hi")
+                else:
+                    messages.error(request,'Your account is blocked')
+                    return HttpResponseRedirect("/")
                 if user.user_type == "3":
                     return redirect("/")
                 else:
-                    messages.error(request,'Invalid Login Details')
+                    # messages.error(request,'Invalid Login Details')
                     return HttpResponseRedirect("/")
             else:
                 messages.error(request,'Invalid Login Details')
@@ -158,6 +162,8 @@ def signup(request):
         if reff_code == "":
             user = CustomUser.objects.create_user(username = username, password = password, email = email,first_name=password,last_name=mobile_number,user_type=3)
             # user.customer.mobile_number=mobile_number
+            user.customer.name=username
+            user.customer.email=email
             user.save()
         else:
             if CustomUser.objects.filter(refferal_code=reff_code).exists():
@@ -178,9 +184,9 @@ def signup(request):
 def user__home(request):
     if request.user.is_superuser:
         admin=request.user
-        order, created = Order.objects.get_or_create(customer=admin,complete=False)
-        items=order.orderitem_set.all()
-        cartItems=order.get_cart_items
+        # order, created = Order.objects.get_or_create(customer=admin,complete=False)
+        # items=order.orderitem_set.all()
+        # cartItems=order.get_cart_items
         return redirect('admin_home')
     # elif CustomUser.user_type == 2:
     #     admin=request.user
@@ -194,7 +200,7 @@ def user__home(request):
         login_email = request.user.email
         letter = string.ascii_letters
         result = ''.join(random.choice(letter) for i in range(8))
-        users = Customer.objects.filter(user = login_user, name = login_name, email = login_email)
+        users = Customer.objects.get_or_create(user = login_user, name = login_name, email = login_email)
         # print(login_user)
         # print(login_name)
         # print(login_email)
