@@ -22,7 +22,9 @@ def dealer_login(request):
 
 
 def dealer_dologin(request):
-    if request.method == 'POST':
+    if request.user.is_authenticated:
+        return redirect("dealer_home")
+    elif request.method == 'POST':
         username=request.POST.get('username')
         password=request.POST.get('password')
         try:

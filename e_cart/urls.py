@@ -103,6 +103,7 @@ urlpatterns = [
     path("user_login",customerviews.user_login,name="user_login"),
     path("user_logout",customerviews.user_logout,name="user_logout"),
     path("signup",customerviews.signup,name="signup"),
+    path("reffral_signup/<str:reff_code>",customerviews.reffral_signup,name="reffral_signup"),
 
     path("user_view_product/<str:product_id>",customerviews.user_view_product,name="user_view_product"),
     path("user_cart",customerviews.user_cart,name="user_cart"),

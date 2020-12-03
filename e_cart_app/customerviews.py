@@ -170,6 +170,8 @@ def signup(request):
                 cust = CustomUser.objects.get(refferal_code=reff_code)
                 user = CustomUser.objects.create_user(username = username, password = password, email = email,first_name=password,last_name=mobile_number,refferal_code=result,reffered_user=cust.id,user_type=3)
                 # user.customer.mobile_number=mobile_number
+                user.customer.name=username
+                user.customer.email=email
                 user.save()
                 # customer, created = Customer.objects.get_or_create(user = user, name = username, email = email,refferal_code=result,reffered_user=cust.user)
         return redirect("/")
@@ -178,7 +180,36 @@ def signup(request):
         return render(request,'user_template/user_signup.html')
 
 
+def reffral_signup(request,reff_code):
+    if request.user.is_authenticated:
+        return redirect('/')
+    elif request.method == 'POST':
+        email= request.POST.get('email')
+        username= request.POST.get('username')
+        password= request.POST.get('password')
+        mobile_number= request.POST.get('mobile_number')
+        letter = string.ascii_letters
+        result = ''.join(random.choice(letter) for i in range(8))
+        if reff_code == "":
+            user = CustomUser.objects.create_user(username = username, password = password, email = email,first_name=password,last_name=mobile_number,user_type=3)
+            # user.customer.mobile_number=mobile_number
+            user.customer.name=username
+            user.customer.email=email
+            user.save()
+        else:
+            if CustomUser.objects.filter(refferal_code=reff_code).exists():
+                cust = CustomUser.objects.get(refferal_code=reff_code)
+                user = CustomUser.objects.create_user(username = username, password = password, email = email,first_name=password,last_name=mobile_number,refferal_code=result,reffered_user=cust.id,user_type=3)
+                # user.customer.mobile_number=mobile_number
+                user.customer.name=username
+                user.customer.email=email
+                user.save()
+                # customer, created = Customer.objects.get_or_create(user = user, name = username, email = email,refferal_code=result,reffered_user=cust.user)
+        return redirect("/")
 
+    else:
+        return render(request,'user_template/user_signup.html')
+    
 
 
 def user__home(request):
@@ -299,7 +330,8 @@ def user_checkout(request):
         if user.reffered_user and Order.objects.filter(customer=customer,complete=True).count()<1:
             ch = order.get_cart_total
             changes = (order.get_cart_total)*(90/100)
-            change = round(changes)
+            totals = round(changes)
+            total=int(totals*100)
         else:
             total = int(order.get_cart_total*100)
     else:
@@ -463,6 +495,8 @@ def user_view_profile(request):
         order, created = Order.objects.get_or_create(customer=admin,complete=False)
         items=order.orderitem_set.all()
         cartItems=order.get_cart_items
+        cust=CustomUser.objects.filter(reffered_user=request.user.id).count()
+        reward=cust*100
     else:
         items=[]
         order ={'get_cart_total':0,'get_cart_items':0,'shipping':False}
@@ -472,5 +506,6 @@ def user_view_profile(request):
         "order":order,
         "cartItems":cartItems,
         "users":users,
+        "reward":reward,
     }
     return render(request,"user_template/view_profile.html",context)

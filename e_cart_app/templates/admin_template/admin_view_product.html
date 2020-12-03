@@ -52,7 +52,7 @@
                       <tr>
                         <td>{{ product.product_name }}</td>
                         <td>{{ product.price }}</td>
-                        <td>{{ product.category }}</td>
+                        <td>{{ product.category.category_name }}</td>
                         <td>{{ product.dealer_id.admin.first_name }}</td>
                         <th>{{ product.quantity }}</th>
                         <td><img class="row-image" src="{{ product.imageURL }}" alt="" style="height: 100px;width: 100px;"></td>

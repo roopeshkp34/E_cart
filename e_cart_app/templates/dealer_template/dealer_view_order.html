@@ -28,7 +28,7 @@
           {% if order.get_cart_total > 0 %}
           <div class="cart-row" style="border-bottom: 0px; border-top: 1px solid ; padding-top: 10px;" >
               <div style="flex:1" >{{order.id}}</div>
-              <div style="flex:1" >{{order.customer}}</div>
+              <div style="flex:1" >{{order.customer.name}}</div>
           
               <div style="flex:1  " >{{order.date_ordered}}</div>
               <div style="flex:1  " >${{order.get_cart_total}}</div>
