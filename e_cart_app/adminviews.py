@@ -17,7 +17,10 @@ from datetime import *
 
 
 def admin_login(request):
-    return render(request,'admin_template/admin_login.html')
+    if request.user.is_superuser:
+        return redirect("admin_home")
+    else:
+        return render(request,'admin_template/admin_login.html')
 
 
 
@@ -126,7 +129,7 @@ def save_add_dealer(request):
 
         data = ContentFile(base64.b64decode(imgstr),name='temp.' + ext)
 
-        user=CustomUser.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name,user_type=2)
+        user=CustomUser.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name,user_type=2,is_staff=3)
         # dealer=Dealer.objects.get(id=user)
         user.dealer.address=address
         user.dealer.mobile_number=mobile_number

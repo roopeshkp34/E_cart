@@ -14,9 +14,6 @@ import string
 
 
 
-
-
-
 def mobile(request):
     if request.method == 'POST':
         mobile = request.POST.get('mobile')
@@ -131,6 +128,9 @@ def user_login(request):
                     return HttpResponseRedirect("/")
                 if user.user_type == "3":
                     return redirect("/")
+                elif user.user_type == "2":
+                    return redirect("dealer_login")
+
                 else:
                     # messages.error(request,'Invalid Login Details')
                     return HttpResponseRedirect("/")
@@ -219,12 +219,12 @@ def user__home(request):
         # items=order.orderitem_set.all()
         # cartItems=order.get_cart_items
         return redirect('admin_home')
-    # elif CustomUser.user_type == 2:
+    elif request.user.is_staff == 3:
     #     admin=request.user
     #     order, created = Order.objects.get_or_create(customer=admin,complete=False)
     #     items=order.orderitem_set.all()
     #     cartItems=order.get_cart_items
-    #     return redirect('dealer_login')
+        return redirect('dealer_home')
     elif request.user.is_authenticated:
         login_user = request.user
         login_name = request.user.username
