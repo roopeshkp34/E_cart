@@ -82,6 +82,10 @@ urlpatterns = [
     path('manage_offers',dealerviews.manage_offers,name='manage_offers'),
     path('add_category_offers',dealerviews.add_category_offers,name='add_category_offers'),
     path('add_category_offers_save',dealerviews.add_category_offers_save,name='add_category_offers_save'),
+    path('manage_reports',dealerviews.manage_reports,name='manage_reports'),
+    path('sales_report',dealerviews.sales_report,name='sales_report'),
+
+
 
 
 

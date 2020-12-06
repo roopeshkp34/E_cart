@@ -369,3 +369,33 @@ def add_category_offers_save(request):
             product.price=offers_price
             product.save()
     return redirect("add_category_offers")
+
+
+
+def manage_reports(request):
+    if request.method == 'POST':
+        start_date=request.POST.get('start_date')
+        end_date=request.POST.get('end_date')
+        complete =  Order.objects.filter(date_ordered__range=[start_date, end_date], order_status='Completed').count()
+        pending = Order.objects.filter(date_ordered__range=[start_date, end_date], order_status='Pending').count()
+
+        context =  {
+            'complete':complete,
+            'pending':pending,
+            }
+        return render(request,"dealer_template/report.html",context)
+    else:
+        return render(request,"dealer_template/report.html")
+
+
+
+def sales_report(request):
+    if request.method == 'POST':
+        start_date = request.POST['start_date']
+        end_date = request.POST['end_date']
+        lists = []
+        orders = Order.objects.filter(date_ordered__range=[start_date, end_date], order_status='Completed')
+        context = {'orders':orders}
+        return render(request,"dealer_template/sales_report.html",context)
+    else:
+        return render(request,"dealer_template/sales_report.html")

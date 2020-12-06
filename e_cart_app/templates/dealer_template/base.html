@@ -71,6 +71,16 @@
                       </p>
                     </a>
                   </li>
+                  <li class="nav-item">
+                    {% url 'manage_reports' as manage_reports %}
+                    <!-- {% url 'add_offers' as add_offers %} -->
+                    <a href="{% url 'manage_reports' %}" class="nav-link {% if request.path == manage_reports %} active {% endif %}">
+                      <i class="nav-icon fas fa-home"></i>
+                      <p>
+                        Reports
+                      </p>
+                    </a>
+                  </li>
                   <!-- <li class="nav-item">
                     {% url 'manage_users' as manage_users %}
                     <a href="" class="nav-link {% if request.path == manage_users %} active {% endif %} ">
