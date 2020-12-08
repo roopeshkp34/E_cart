@@ -120,7 +120,7 @@ def user_login(request):
             user=auth.authenticate(username=username,password=password)
             print(user)
             if user is not None:
-                if user.is_staff == 0:
+                if user.is_staff == 1:
                     login(request,user)
                 # return HttpResponse("hi")
                 else:
