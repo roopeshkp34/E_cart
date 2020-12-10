@@ -127,7 +127,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<!-- <div class="top_nav_right"> -->
 							<!-- <div class="wthreecartaits wthreecartaits2 cart cart box_1"> -->
 								{% if cartItems == 0 %}
-								<form   >
+								<form action="{% url 'user_cart' %}" method="post"  >
 									{% csrf_token %}
 									<button  type="button" name="submit" value="">
 										<p id="cart-total">{{ cartItems }}</p>
