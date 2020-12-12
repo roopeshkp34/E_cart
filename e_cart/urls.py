@@ -116,7 +116,12 @@ urlpatterns = [
     path("process_order/",customerviews.processOrder,name="process_order"),
     path("user_view_orders",customerviews.user_view_orders,name="user_view_orders"),
     path('getshipping/',customerviews.Getshipping.as_view()),
-    path('user_view_profile',customerviews.user_view_profile,name="user_view_profile")
+    path('user_view_profile',customerviews.user_view_profile,name="user_view_profile"),
+    path('check_username_exist',customerviews.check_username_exist,name="check_username_exist"),
+    path('check_email_exist',customerviews.check_email_exist,name="check_email_exist"),
+    path('check_mobile_exist',customerviews.check_mobile_exist,name="check_mobile_exist"),
+
+
 
 
 

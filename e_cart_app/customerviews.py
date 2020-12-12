@@ -11,6 +11,8 @@ import razorpay
 from django.views.generic import View
 import random
 import string
+from django.views.decorators.csrf import csrf_exempt
+
 
 
 
@@ -509,3 +511,33 @@ def user_view_profile(request):
         "reward":reward,
     }
     return render(request,"user_template/view_profile.html",context)
+
+
+@csrf_exempt
+def check_email_exist(request):
+    email=request.POST.get("email")
+    user_obj=CustomUser.objects.filter(email=email).exists()
+    if user_obj:
+        return HttpResponse("True")
+    else:
+        return HttpResponse("False")
+
+
+
+@csrf_exempt
+def check_username_exist(request):
+    username=request.POST.get("username")
+    user_obj=CustomUser.objects.filter(username=username).exists()
+    if user_obj:
+        return HttpResponse("True")
+    else:
+        return HttpResponse("False")
+
+@csrf_exempt
+def check_mobile_exist(request):
+    last_name=request.POST.get("mobile")
+    user_obj=CustomUser.objects.filter(last_name=last_name).exists()
+    if user_obj:
+        return HttpResponse("True")
+    else:
+        return HttpResponse("False")

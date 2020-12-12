@@ -72,6 +72,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui1.css' %}">
 	<!-- fonts -->
 	<link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800" rel="stylesheet">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3S5ZDJM5LN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3S5ZDJM5LN');
+</script>
 </head>
 
 <body>
@@ -127,7 +137,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<!-- <div class="top_nav_right"> -->
 							<!-- <div class="wthreecartaits wthreecartaits2 cart cart box_1"> -->
 								{% if cartItems == 0 %}
-								<form action="{% url 'user_cart' %}" method="post"  >
+								<form action="{% url 'user_cart' %}" method="post">
 									{% csrf_token %}
 									<button  type="button" name="submit" value="">
 										<p id="cart-total">{{ cartItems }}</p>
@@ -329,19 +339,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<form action="{% url 'signup' %}" method="post">
 							{% csrf_token %}
 							<div class="styled-input agile-styled-input-top">
-								<input type="email" placeholder="Enter email" name="email" required="">
+								<input type="email" placeholder="Enter email" name="email" id="id_email" required="" autocomplete="off">
 							</div>
 							<div class="styled-input">
 								<input type="password" placeholder="Password" name="password" required="">
 							</div>
 							<div class="styled-input">
-								<input type="text" placeholder="Enter the Name" name="username"  required="">
+								<input type="text" placeholder="Enter the Username" name="username" id="id_username" required="" autocomplete="off">
 							</div>
 							<div class="styled-input">
-								<input type="text" placeholder="Enter the Mobile number" name="mobile_number"  required="">
-							</div>
-							<div class="styled-input">
-								<input type="text" placeholder="Enter the Refferel Code" name="refferel_code"  >
+								<input type="text" placeholder="Enter the Mobile number" name="mobile_number" id="id_mobile" required="">
 							</div>
 							<input type="submit" value="Sign Up">
 						</form>
@@ -549,6 +556,108 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<!-- //for bootstrap working -->
 	<!-- //js-files -->
 	<script src="{% static 'js/cart.js' %}"></script>
+
+
+	<!-- password -->
+	<script>
+		$(document).ready(function(){
+		  $("#id_email").keyup(function(){
+			var email=$(this).val();
+	  
+			if(email!="")
+			{
+			  $.ajax({
+				url:"{% url 'check_email_exist' %}",
+				type:'POST',
+				data:{email:email}
+			  })
+			  .done(function(respose){
+				console.log(respose);
+				if(respose == "True"){
+				  $(".email_error").remove();
+				  $("<span class='email_error' style='padding:5px;color:red;font-weight:bold;'>Email Not Available</span>").insertAfter("#id_email");
+				}
+				else{
+				  $(".email_error").remove();
+				  $("<span class='email_error' style='padding:5px;color:green;font-weight:bold;'>Email Available</span>").insertAfter("#id_email");
+				}
+			  })
+			  .fail(function(){
+				console.log("failed");
+			  })
+			}
+			else
+			{
+			  $(".email_error").remove();
+			}
+	  
+		  });
+	  
+		  $("#id_username").keyup(function(){
+			var username=$(this).val();
+	  
+			if(username!="")
+			{
+			  $.ajax({
+				url:"{% url 'check_username_exist' %}",
+				type:'POST',
+				data:{username:username}
+			  })
+			  .done(function(respose){
+				console.log(respose);
+				if(respose == "True"){
+				  $(".username_error").remove();
+				  $("<span class='username_error' style='padding:5px;color:red;font-weight:bold;'>Username Not Available</span>").insertAfter("#id_username");
+				}
+				else{
+				  $(".username_error").remove();
+				  $("<span class='username_error' style='padding:5px;color:green;font-weight:bold;'>Username Available</span>").insertAfter("#id_username");
+				}
+			  })
+			  .fail(function(){
+				console.log("failed");
+			  })
+			}
+			else
+			{
+			  $(".username_error").remove();
+			}
+	  
+			});
+		  $("#id_mobile").keyup(function(){
+			var mobile=$(this).val();
+	  
+			if(mobile!="")
+			{
+			  $.ajax({
+				url:"{% url 'check_mobile_exist' %}",
+				type:'POST',
+				data:{mobile:mobile}
+			  })
+			  .done(function(respose){
+				console.log(respose);
+				if(respose == "True"){
+				  $(".mobile_error").remove();
+				  $("<span class='mobile_error' style='padding:5px;color:red;font-weight:bold;'>Mobile Number Allready taken</span>").insertAfter("#id_mobile");
+				}
+				else{
+				  $(".mobile_error").remove();
+				  $("<span class='mobile_error' style='padding:5px;color:green;font-weight:bold;'>Mobile Number Available</span>").insertAfter("#id_mobile");
+				}
+			  })
+			  .fail(function(){
+				console.log("failed");
+			  })
+			}
+			else
+			{
+			  $(".mobile_error").remove();
+			}
+	  
+		  });
+		});
+	  </script>
+	<!--  -->
 
 
 </body>
